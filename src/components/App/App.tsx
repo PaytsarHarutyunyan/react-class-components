@@ -44,26 +44,37 @@ export default class App extends Component<{}, AppState> {
             { name: 'Vehicles', url: '/vehicles' },
         ],
         singleResult: false,
-        searchTerm: '',
+        searchTerm: localStorage.getItem('searchTerm') || '',
     };
 
     async componentDidMount() {
-        const savedSearchTerm = localStorage.getItem('searchTerm') || '';
-        this.setState({ searchTerm: savedSearchTerm });
-        await this.fetchData(this.state.selectedTab.url, savedSearchTerm);
+        // const savedSearchTerm = localStorage.getItem('searchTerm') || '';
+        // this.setState({ searchTerm: savedSearchTerm });
+        await this.fetchData(this.state.selectedTab.url, { searchTerm: this.state.searchTerm });
     }
 
-    async fetchData(url: string, searchTerm = '') {
+    async fetchData(
+        url: string,
+        { searchTerm, page }: { searchTerm?: string; page?: number } = {},
+    ) {
         this.setState({ loading: true });
-        const result = await getData(`${BASE_URL}${url}?search=${searchTerm.trim()}`);
-        console.log('Fetched Data:', result);
+        const queryParams =
+            searchTerm || page
+                ? {
+                      ...(searchTerm && { search: searchTerm }),
+                      ...(page && { page: String(page) }),
+                  }
+                : undefined;
+
+        const searchParams = new URLSearchParams(queryParams);
+        const result = await getData(`${BASE_URL}${url}?${searchParams.toString()}`);
         this.setState({ loading: false, result: { data: result.results, count: result.count } });
     }
 
     async headerBtnAction(tabName: string) {
         const selectedTab =
             this.state.tabs.find((tab) => tab.name === tabName) || this.state.selectedTab;
-        await this.fetchData(selectedTab.url, this.state.searchTerm);
+        await this.fetchData(selectedTab.url, { searchTerm: this.state.searchTerm });
         this.setState({ selectedTab });
     }
 
@@ -73,13 +84,16 @@ export default class App extends Component<{}, AppState> {
     }
 
     async onClickPagination(page: number) {
-        await this.fetchData(`${this.state.selectedTab.url}/?page=${page}`, this.state.searchTerm);
+        await this.fetchData(`${this.state.selectedTab.url}`, {
+            searchTerm: this.state.searchTerm,
+            page,
+        });
         this.setState({ selectedPage: page });
     }
 
     handleSearch = async (searchTerm: string) => {
         localStorage.setItem('searchTerm', searchTerm);
-        await this.fetchData(this.state.selectedTab.url, searchTerm);
+        await this.fetchData(this.state.selectedTab.url, { searchTerm });
     };
 
     drawSingleResult() {

@@ -36,4 +36,4 @@ export default class Search extends Component<SearchProps, SearchState> {
             </div>
         );
     }
-};
+}

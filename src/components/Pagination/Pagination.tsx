@@ -46,7 +46,7 @@ class Pagination extends Component<PaginationProps, PaginationState> {
                     [styles.itemSelected]: paginationItem === this.props.selectedPage,
                 })}
                 key={paginationItem}
-                onClick={async () => await action(paginationItem)}
+                onClick={() => action(paginationItem)}
             >
                 {paginationItem}
             </button>
@@ -62,19 +62,13 @@ class Pagination extends Component<PaginationProps, PaginationState> {
                     <button className={styles.item} onClick={async () => await action(1)}>
                         &lt;&lt;
                     </button>
-                    <button
-                        className={styles.item}
-                        onClick={async () => await action(this.state.prevPage)}
-                    >
+                    <button className={styles.item} onClick={() => action(this.state.prevPage)}>
                         &lt;
                     </button>
                     {this.state.paginationItems.length
                         ? this.drawPaginationItem(action)
                         : 'No data available'}
-                    <button
-                        className={styles.item}
-                        onClick={async () => await action(this.state.nextPage)}
-                    >
+                    <button className={styles.item} onClick={() => action(this.state.nextPage)}>
                         &gt;
                     </button>
                     <button className={styles.item} onClick={async () => await action(pageCount)}>
