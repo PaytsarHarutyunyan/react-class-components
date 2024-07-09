@@ -1,5 +1,5 @@
 import styles from './Item.module.css';
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 interface ItemProps {
     item: { name: string };
@@ -14,4 +14,4 @@ export default class Item extends Component<ItemProps> {
             </div>
         );
     }
-};
+}

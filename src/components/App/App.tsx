@@ -25,11 +25,11 @@ interface AppState {
     perPageCount: number;
     selectedTab: Tab;
     tabs: Tab[];
-    singleResult: boolean | { [key: string]: string };
+    singleResult: boolean | { [key: string]: string } | null;
     searchTerm: string;
 }
 
-export default class App extends Component<{}, AppState> {
+export default class App extends Component<AppState> {
     state: AppState = {
         loading: false,
         result: { count: 0, data: [] },
@@ -43,28 +43,21 @@ export default class App extends Component<{}, AppState> {
             { name: 'Starships', url: '/starships' },
             { name: 'Vehicles', url: '/vehicles' },
         ],
-        singleResult: false,
+        singleResult: null,
         searchTerm: localStorage.getItem('searchTerm') || '',
     };
 
     async componentDidMount() {
-        // const savedSearchTerm = localStorage.getItem('searchTerm') || '';
-        // this.setState({ searchTerm: savedSearchTerm });
         await this.fetchData(this.state.selectedTab.url, { searchTerm: this.state.searchTerm });
     }
 
-    async fetchData(
-        url: string,
-        { searchTerm, page }: { searchTerm?: string; page?: number } = {},
-    ) {
+    async fetchData(url: string, options?: { searchTerm?: string; page?: number }) {
         this.setState({ loading: true });
-        const queryParams =
-            searchTerm || page
-                ? {
-                      ...(searchTerm && { search: searchTerm }),
-                      ...(page && { page: String(page) }),
-                  }
-                : undefined;
+        const { searchTerm, page } = options || {};
+
+        const queryParams: Record<string, string> = {};
+        if (searchTerm) queryParams['search'] = searchTerm;
+        if (page) queryParams['page'] = String(page);
 
         const searchParams = new URLSearchParams(queryParams);
         const result = await getData(`${BASE_URL}${url}?${searchParams.toString()}`);

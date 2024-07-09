@@ -34,4 +34,4 @@ export default class HeaderButtons extends Component<HeaderButtonsProps> {
     render() {
         return <div className={styles.container}>{this.drawButtons()}</div>;
     }
-};
+}
