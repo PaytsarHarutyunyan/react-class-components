@@ -1,0 +1,19 @@
+.item {
+    height: 10%;
+    border-style: solid;
+    border-color: #999;
+    border-width: 0px 1px 1px 1px;
+}
+
+.item > button {
+    border: none;
+    background: none;
+    height: 100%;
+    margin-left: 1.5%;
+    font-weight: bold;
+    cursor:pointer;
+}
+
+.item:hover {
+    background-color: #bababa;
+}
