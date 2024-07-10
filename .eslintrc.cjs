@@ -20,7 +20,8 @@ module.exports = {
     "react-refresh",
     "jest",
     "@typescript-eslint",
-    "prettier"
+    "prettier",
+    "react-compiler"
   ],
   settings: {
     react: {
@@ -35,7 +36,8 @@ module.exports = {
     "prettier/prettier": "error",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "react-compiler/react-compiler": "error"
   }
 };
 
