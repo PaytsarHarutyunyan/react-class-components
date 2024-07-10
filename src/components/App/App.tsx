@@ -85,6 +85,7 @@ export default class App extends Component<AppState> {
     }
 
     handleSearch = async (searchTerm: string) => {
+        const a = '5';
         localStorage.setItem('searchTerm', searchTerm);
         await this.fetchData(this.state.selectedTab.url, { searchTerm });
     };

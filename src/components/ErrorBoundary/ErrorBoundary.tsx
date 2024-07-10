@@ -23,6 +23,9 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
     }
 
     handleThrowError = () => {
+        this.setState({
+            hasError: true,
+        });
         throw new Error('Test error thrown');
     };
 
