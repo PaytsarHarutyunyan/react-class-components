@@ -13,7 +13,6 @@ interface RoutesProps {
     result: Result;
     loading: boolean;
     singleResult: boolean | { [key: string]: string } | null;
-    selectedPage: number;
     perPageCount: number;
     searchTerm: string;
     handleSearch: (searchTerm: string) => Promise<void>;
@@ -29,7 +28,6 @@ const RoutesComponent: React.FC<RoutesProps> = ({
     result,
     loading,
     singleResult,
-    selectedPage,
     perPageCount,
     searchTerm,
     handleSearch,
@@ -44,29 +42,25 @@ const RoutesComponent: React.FC<RoutesProps> = ({
                 path='/'
                 element={
                     !singleResult ? (
-                        <div className={styles.hero}>
+                        <>
                             <Search searchTerm={searchTerm} onSearch={handleSearch} />
-                            <div className={styles.container}>
-                                <div className={styles.content}>
-                                    <HeaderButtons
-                                        tabs={tabs}
-                                        selectedTabName={selectedTab.name}
-                                        action={headerBtnAction}
-                                    />
-                                    <List
-                                        data={result.data}
-                                        loading={loading}
-                                        selectedPage={selectedPage}
-                                        itemAction={onClickItem}
-                                    />
-                                    <Pagination
-                                        pageCount={Math.ceil(result.count / perPageCount)}
-                                        selectedPage={selectedPage}
-                                        action={onClickPagination}
-                                    />
-                                </div>
+                            <div className={styles.content}>
+                                <HeaderButtons
+                                    tabs={tabs}
+                                    selectedTabName={selectedTab.name}
+                                    action={headerBtnAction}
+                                />
+                                <List
+                                    data={result.data}
+                                    loading={loading}
+                                    itemAction={onClickItem}
+                                />
+                                <Pagination
+                                    pageCount={Math.ceil(result.count / perPageCount)}
+                                    action={onClickPagination}
+                                />
                             </div>
-                        </div>
+                        </>
                     ) : (
                         drawSingleResult()
                     )

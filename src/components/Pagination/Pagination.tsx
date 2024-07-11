@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './Pagination.module.css';
+import { Link } from 'react-router-dom';
+import { useSelectedPage } from '../../hooks/useGetSelectedPage';
 
 interface PaginationProps {
-    selectedPage: number;
     pageCount: number;
     action: (page: number) => Promise<void>;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ selectedPage, pageCount, action }) => {
+const Pagination: React.FC<PaginationProps> = ({ pageCount, action }) => {
+    const { getSelectedPage, setSelectedPage } = useSelectedPage();
+    const selectedPage = getSelectedPage();
+
+    const getPageLink = (pageNumber: number) => {
+        setSelectedPage(pageNumber);
+        return `${location.pathname}?page=${pageNumber}`;
+    };
+
     const [paginationItems, setPaginationItems] = useState<number[]>([]);
     const [nextPage, setNextPage] = useState<number>(selectedPage + 1);
     const [prevPage, setPrevPage] = useState<number>(selectedPage - 1);
@@ -20,7 +29,7 @@ const Pagination: React.FC<PaginationProps> = ({ selectedPage, pageCount, action
         setPrevPage(selectedPage === 1 ? selectedPage : selectedPage - 1);
     }, [selectedPage, pageCount]);
 
-    const drawPaginationItem = () =>
+    const drawPaginationItems = () =>
         paginationItems.map((paginationItem) => (
             <button
                 className={classNames({
@@ -28,27 +37,56 @@ const Pagination: React.FC<PaginationProps> = ({ selectedPage, pageCount, action
                     [styles.itemSelected]: paginationItem === selectedPage,
                 })}
                 key={paginationItem}
-                onClick={() => action(paginationItem)}
             >
-                {paginationItem}
+                <Link
+                    style={{ display: 'block', color: '#ffffff', textDecoration: 'none' }}
+                    onClick={() => action(paginationItem)}
+                    to={getPageLink(paginationItem)}
+                >
+                    {paginationItem}
+                </Link>
             </button>
         ));
 
     return (
         <div className={styles.container}>
             <div className={styles.itemContainer}>
-                <button className={styles.item} onClick={() => action(1)}>
-                    &lt;&lt;
+                <button className={styles.item}>
+                    <Link
+                        style={{ display: 'block', color: '#ffffff', textDecoration: 'none' }}
+                        onClick={() => action(1)}
+                        to={getPageLink(1)}
+                    >
+                        &lt;&lt;
+                    </Link>
                 </button>
-                <button className={styles.item} onClick={() => action(prevPage)}>
-                    &lt;
+                <button className={styles.item}>
+                    <Link
+                        style={{ display: 'block', color: '#ffffff', textDecoration: 'none' }}
+                        onClick={() => action(prevPage)}
+                        to={getPageLink(prevPage)}
+                    >
+                        &lt;
+                    </Link>
                 </button>
-                {paginationItems.length ? drawPaginationItem() : 'No data available'}
-                <button className={styles.item} onClick={() => action(nextPage)}>
-                    &gt;
+                {paginationItems.length ? drawPaginationItems() : 'No data available'}
+                <button className={styles.item}>
+                    <Link
+                        style={{ display: 'block', color: '#ffffff', textDecoration: 'none' }}
+                        onClick={() => action(nextPage)}
+                        to={getPageLink(nextPage)}
+                    >
+                        &gt;
+                    </Link>
                 </button>
-                <button className={styles.item} onClick={() => action(pageCount)}>
-                    &gt;&gt;
+                <button className={styles.item}>
+                    <Link
+                        style={{ display: 'block', color: '#ffffff', textDecoration: 'none' }}
+                        onClick={() => action(pageCount)}
+                        to={getPageLink(pageCount)}
+                    >
+                        &gt;&gt;
+                    </Link>
                 </button>
             </div>
         </div>

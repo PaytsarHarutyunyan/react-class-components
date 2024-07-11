@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
 import styles from './App.module.css';
 import { getData } from '../../api/index';
 import { BASE_URL } from '../../constants/index';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import Routes from '../../routes/Routes';
+import { useSelectedPage } from '../../hooks/useGetSelectedPage';
 
 interface Tab {
     name: string;
@@ -20,7 +19,6 @@ interface Result {
 const App: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [result, setResult] = useState<Result>({ count: 0, data: [] });
-    const [selectedPage, setSelectedPage] = useState<number>(1);
     const [perPageCount] = useState<number>(10);
     const [selectedTab, setSelectedTab] = useState<Tab>({ name: 'People', url: '/people' });
     const [tabs] = useState<Tab[]>([
@@ -30,14 +28,15 @@ const App: React.FC = () => {
         { name: 'Starships', url: '/starships' },
         { name: 'Vehicles', url: '/vehicles' },
     ]);
-    const [singleResult, setSingleResult] = useState<boolean | { [key: string]: string } | null>(
-        null,
-    );
+    const [singleResult, setSingleResult] = useState<{ [key: string]: string } | null>(null);
     const [searchTerm, setSearchTerm] = useLocalStorage<string>('searchTerm', '');
 
+    const { getSelectedPage } = useSelectedPage();
+    const selectedPage = getSelectedPage();
+
     useEffect(() => {
-        fetchData(selectedTab.url, { searchTerm });
-    }, [selectedTab, searchTerm, selectedPage]);
+        fetchData(selectedTab.url, { page: selectedPage });
+    }, [selectedTab.url, selectedPage]);
 
     const fetchData = async (url: string, options?: { searchTerm?: string; page?: number }) => {
         setLoading(true);
@@ -57,7 +56,6 @@ const App: React.FC = () => {
         const selectedTab = tabs.find((tab) => tab.name === tabName) || selectedTab;
         await fetchData(selectedTab.url, { searchTerm });
         setSelectedTab(selectedTab);
-        setSelectedPage(1);
     };
 
     const onClickItem = async (id: string) => {
@@ -67,7 +65,6 @@ const App: React.FC = () => {
 
     const onClickPagination = async (page: number) => {
         await fetchData(selectedTab.url, { searchTerm, page });
-        setSelectedPage(page);
     };
 
     const handleSearch = async (searchTerm: string) => {
@@ -76,41 +73,36 @@ const App: React.FC = () => {
     };
 
     const drawSingleResult = () => {
-        const singleResultData = singleResult as { [key: string]: string };
-        return Object.keys(singleResultData).map((key) => (
+        if (!singleResult) return null;
+        return Object.keys(singleResult).map((key) => (
             <span key={key}>
                 <h4 className={styles.key}>{key}:</h4>
-                <span>{singleResultData[key]}</span>
+                <span>{singleResult[key]}</span>
             </span>
         ));
     };
 
     return (
-        <Router>
-            <ErrorBoundary>
-                <div className={styles.hero}>
-                    <div className={styles.container}>
-                        <div className={styles.content}>
-                            <Routes
-                                tabs={tabs}
-                                selectedTab={selectedTab}
-                                result={result}
-                                loading={loading}
-                                singleResult={singleResult}
-                                selectedPage={selectedPage}
-                                perPageCount={perPageCount}
-                                searchTerm={searchTerm}
-                                handleSearch={handleSearch}
-                                headerBtnAction={headerBtnAction}
-                                onClickItem={onClickItem}
-                                onClickPagination={onClickPagination}
-                                drawSingleResult={drawSingleResult}
-                            />
-                        </div>
-                    </div>
+        <div className={styles.hero}>
+            <div className={styles.container}>
+                <div className={styles.content}>
+                    <Routes
+                        tabs={tabs}
+                        selectedTab={selectedTab}
+                        result={result}
+                        loading={loading}
+                        singleResult={singleResult}
+                        perPageCount={perPageCount}
+                        searchTerm={searchTerm}
+                        handleSearch={handleSearch}
+                        headerBtnAction={headerBtnAction}
+                        onClickItem={onClickItem}
+                        onClickPagination={onClickPagination}
+                        drawSingleResult={drawSingleResult}
+                    />
                 </div>
-            </ErrorBoundary>
-        </Router>
+            </div>
+        </div>
     );
 };
 
