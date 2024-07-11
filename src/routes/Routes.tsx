@@ -5,6 +5,7 @@ import List from '../components/List/List';
 import Pagination from '../components/Pagination/Pagination';
 import Search from '../components/Search/Search';
 import NotFound from '../components/NotFound/NotFound';
+import styles from '../components/App/App.module.css';
 
 interface RoutesProps {
     tabs: Tab[];
@@ -43,25 +44,29 @@ const RoutesComponent: React.FC<RoutesProps> = ({
                 path='/'
                 element={
                     !singleResult ? (
-                        <>
+                        <div className={styles.hero}>
                             <Search searchTerm={searchTerm} onSearch={handleSearch} />
-                            <HeaderButtons
-                                tabs={tabs}
-                                selectedTabName={selectedTab.name}
-                                action={headerBtnAction}
-                            />
-                            <List
-                                data={result.data}
-                                loading={loading}
-                                selectedPage={selectedPage}
-                                itemAction={onClickItem}
-                            />
-                            <Pagination
-                                pageCount={Math.ceil(result.count / perPageCount)}
-                                selectedPage={selectedPage}
-                                action={onClickPagination}
-                            />
-                        </>
+                            <div className={styles.container}>
+                                <div className={styles.content}>
+                                    <HeaderButtons
+                                        tabs={tabs}
+                                        selectedTabName={selectedTab.name}
+                                        action={headerBtnAction}
+                                    />
+                                    <List
+                                        data={result.data}
+                                        loading={loading}
+                                        selectedPage={selectedPage}
+                                        itemAction={onClickItem}
+                                    />
+                                    <Pagination
+                                        pageCount={Math.ceil(result.count / perPageCount)}
+                                        selectedPage={selectedPage}
+                                        action={onClickPagination}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     ) : (
                         drawSingleResult()
                     )
