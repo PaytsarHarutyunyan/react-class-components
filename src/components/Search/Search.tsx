@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import styles from './Search.module.css';
 
 interface SearchProps {
@@ -6,34 +6,28 @@ interface SearchProps {
     onSearch: (term: string) => void;
 }
 
-interface SearchState {
-    searchTerm: string;
-}
+const Search: React.FC<SearchProps> = ({ searchTerm, onSearch }) => {
+    const [searchValue, setSearchValue] = useState<string>(searchTerm);
 
-export default class Search extends Component<SearchProps, SearchState> {
-    state: SearchState = {
-        searchTerm: this.props.searchTerm,
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(e.target.value);
     };
 
-    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ searchTerm: e.target.value });
+    const handleSearch = () => {
+        onSearch(searchValue);
     };
 
-    handleSearch = () => {
-        this.props.onSearch(this.state.searchTerm);
-    };
+    return (
+        <div className={styles.searchContainer}>
+            <input
+                type='text'
+                value={searchValue}
+                onChange={handleChange}
+                placeholder='Search...'
+            />
+            <button onClick={handleSearch}>Search</button>
+        </div>
+    );
+};
 
-    render() {
-        return (
-            <div className={styles.searchContainer}>
-                <input
-                    type='text'
-                    value={this.state.searchTerm}
-                    onChange={this.handleChange}
-                    placeholder='Search...'
-                />
-                <button onClick={this.handleSearch}>Search</button>
-            </div>
-        );
-    }
-}
+export default Search;

@@ -1,17 +1,15 @@
+import React from 'react';
 import styles from './Item.module.css';
-import React, { Component } from 'react';
 
 interface ItemProps {
     item: { name: string };
     action: () => void;
 }
 
-export default class Item extends Component<ItemProps> {
-    render() {
-        return (
-            <div className={styles.item}>
-                <button onClick={this.props.action}>{this.props.item.name}</button>
-            </div>
-        );
-    }
-}
+const Item: React.FC<ItemProps> = ({ item, action }) => (
+    <div className={styles.item}>
+        <button onClick={action}>{item.name}</button>
+    </div>
+);
+
+export default Item;

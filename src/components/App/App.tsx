@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-import HeaderButtons from '../HeaderButtons/HeaderButtons';
-import List from '../List/List';
-import Pagination from '../Pagination/Pagination';
-import Search from '../Search/Search';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import styles from '../App/App.module.css';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import styles from './App.module.css';
 import { getData } from '../../api/index';
 import { BASE_URL } from '../../constants/index';
+import useLocalStorage from '../../hooks/useLocalStorage';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import Routes from '../../routes/Routes';
 
 interface Tab {
     name: string;
@@ -18,41 +17,30 @@ interface Result {
     data: { name: string }[];
 }
 
-interface AppState {
-    loading: boolean;
-    result: Result;
-    selectedPage: number;
-    perPageCount: number;
-    selectedTab: Tab;
-    tabs: Tab[];
-    singleResult: boolean | { [key: string]: string } | null;
-    searchTerm: string;
-}
+const App: React.FC = () => {
+    const [loading, setLoading] = useState<boolean>(false);
+    const [result, setResult] = useState<Result>({ count: 0, data: [] });
+    const [selectedPage, setSelectedPage] = useState<number>(1);
+    const [perPageCount] = useState<number>(10);
+    const [selectedTab, setSelectedTab] = useState<Tab>({ name: 'People', url: '/people' });
+    const [tabs] = useState<Tab[]>([
+        { name: 'People', url: '/people' },
+        { name: 'Planets', url: '/planets' },
+        { name: 'Species', url: '/species' },
+        { name: 'Starships', url: '/starships' },
+        { name: 'Vehicles', url: '/vehicles' },
+    ]);
+    const [singleResult, setSingleResult] = useState<boolean | { [key: string]: string } | null>(
+        null,
+    );
+    const [searchTerm, setSearchTerm] = useLocalStorage<string>('searchTerm', '');
 
-export default class App extends Component<AppState> {
-    state: AppState = {
-        loading: false,
-        result: { count: 0, data: [] },
-        selectedPage: 1,
-        perPageCount: 10,
-        selectedTab: { name: 'People', url: '/people' },
-        tabs: [
-            { name: 'People', url: '/people' },
-            { name: 'Planets', url: '/planets' },
-            { name: 'Species', url: '/species' },
-            { name: 'Starships', url: '/starships' },
-            { name: 'Vehicles', url: '/vehicles' },
-        ],
-        singleResult: null,
-        searchTerm: localStorage.getItem('searchTerm') || '',
-    };
+    useEffect(() => {
+        fetchData(selectedTab.url, { searchTerm });
+    }, [selectedTab, searchTerm, selectedPage]);
 
-    async componentDidMount() {
-        await this.fetchData(this.state.selectedTab.url, { searchTerm: this.state.searchTerm });
-    }
-
-    async fetchData(url: string, options?: { searchTerm?: string; page?: number }) {
-        this.setState({ loading: true });
+    const fetchData = async (url: string, options?: { searchTerm?: string; page?: number }) => {
+        setLoading(true);
         const { searchTerm, page } = options || {};
 
         const queryParams: Record<string, string> = {};
@@ -61,79 +49,69 @@ export default class App extends Component<AppState> {
 
         const searchParams = new URLSearchParams(queryParams);
         const result = await getData(`${BASE_URL}${url}?${searchParams.toString()}`);
-        this.setState({ loading: false, result: { data: result.results, count: result.count } });
-    }
-
-    async headerBtnAction(tabName: string) {
-        const selectedTab =
-            this.state.tabs.find((tab) => tab.name === tabName) || this.state.selectedTab;
-        await this.fetchData(selectedTab.url, { searchTerm: this.state.searchTerm });
-        this.setState({ selectedTab });
-    }
-
-    async onClickItem(id: string) {
-        const result = await this.fetchData(`${this.state.selectedTab.url}/${id}`);
-        this.setState({ singleResult: result });
-    }
-
-    async onClickPagination(page: number) {
-        await this.fetchData(`${this.state.selectedTab.url}`, {
-            searchTerm: this.state.searchTerm,
-            page,
-        });
-        this.setState({ selectedPage: page });
-    }
-
-    handleSearch = async (searchTerm: string) => {
-        localStorage.setItem('searchTerm', searchTerm);
-        await this.fetchData(this.state.selectedTab.url, { searchTerm });
+        setLoading(false);
+        setResult({ data: result.results, count: result.count });
     };
 
-    drawSingleResult() {
-        const singleResult = this.state.singleResult as { [key: string]: string };
-        return Object.keys(singleResult).map((key) => (
+    const headerBtnAction = async (tabName: string) => {
+        const selectedTab = tabs.find((tab) => tab.name === tabName) || selectedTab;
+        await fetchData(selectedTab.url, { searchTerm });
+        setSelectedTab(selectedTab);
+        setSelectedPage(1);
+    };
+
+    const onClickItem = async (id: string) => {
+        const result = await fetchData(`${selectedTab.url}/${id}`);
+        setSingleResult(result);
+    };
+
+    const onClickPagination = async (page: number) => {
+        await fetchData(selectedTab.url, { searchTerm, page });
+        setSelectedPage(page);
+    };
+
+    const handleSearch = async (searchTerm: string) => {
+        setSearchTerm(searchTerm);
+        await fetchData(selectedTab.url, { searchTerm });
+    };
+
+    const drawSingleResult = () => {
+        const singleResultData = singleResult as { [key: string]: string };
+        return Object.keys(singleResultData).map((key) => (
             <span key={key}>
                 <h4 className={styles.key}>{key}:</h4>
-                <span>{singleResult[key]}</span>
+                <span>{singleResultData[key]}</span>
             </span>
         ));
-    }
+    };
 
-    render() {
-        return (
+    return (
+        <Router>
             <ErrorBoundary>
                 <div className={styles.hero}>
-                    <Search searchTerm={this.state.searchTerm} onSearch={this.handleSearch} />
                     <div className={styles.container}>
                         <div className={styles.content}>
-                            {!this.state.singleResult ? (
-                                <>
-                                    <HeaderButtons
-                                        tabs={this.state.tabs}
-                                        selectedTabName={this.state.selectedTab.name}
-                                        action={this.headerBtnAction.bind(this)}
-                                    />
-                                    <List
-                                        data={this.state.result.data}
-                                        loading={this.state.loading}
-                                        selectedPage={this.state.selectedPage}
-                                        itemAction={this.onClickItem.bind(this)}
-                                    />
-                                    <Pagination
-                                        pageCount={Math.ceil(
-                                            this.state.result.count / this.state.perPageCount,
-                                        )}
-                                        selectedPage={this.state.selectedPage}
-                                        action={this.onClickPagination.bind(this)}
-                                    />
-                                </>
-                            ) : (
-                                this.drawSingleResult()
-                            )}
+                            <Routes
+                                tabs={tabs}
+                                selectedTab={selectedTab}
+                                result={result}
+                                loading={loading}
+                                singleResult={singleResult}
+                                selectedPage={selectedPage}
+                                perPageCount={perPageCount}
+                                searchTerm={searchTerm}
+                                handleSearch={handleSearch}
+                                headerBtnAction={headerBtnAction}
+                                onClickItem={onClickItem}
+                                onClickPagination={onClickPagination}
+                                drawSingleResult={drawSingleResult}
+                            />
                         </div>
                     </div>
                 </div>
             </ErrorBoundary>
-        );
-    }
-}
+        </Router>
+    );
+};
+
+export default App;

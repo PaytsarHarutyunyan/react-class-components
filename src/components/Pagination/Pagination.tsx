@@ -1,6 +1,6 @@
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './Pagination.module.css';
-import { Component } from 'react';
 
 interface PaginationProps {
     selectedPage: number;
@@ -8,42 +8,24 @@ interface PaginationProps {
     action: (page: number) => Promise<void>;
 }
 
-interface PaginationState {
-    nextPage: number;
-    prevPage: number;
-    paginationItems: number[];
-}
+const Pagination: React.FC<PaginationProps> = ({ selectedPage, pageCount, action }) => {
+    const [paginationItems, setPaginationItems] = useState<number[]>([]);
+    const [nextPage, setNextPage] = useState<number>(selectedPage + 1);
+    const [prevPage, setPrevPage] = useState<number>(selectedPage - 1);
 
-class Pagination extends Component<PaginationProps, PaginationState> {
-    constructor(props: PaginationProps) {
-        super(props);
-        this.state = this.getUpdatedState(props);
-    }
+    useEffect(() => {
+        const items = new Array(pageCount).fill(null).map((_, index) => index + 1);
+        setPaginationItems(items);
+        setNextPage(selectedPage === pageCount ? pageCount : selectedPage + 1);
+        setPrevPage(selectedPage === 1 ? selectedPage : selectedPage - 1);
+    }, [selectedPage, pageCount]);
 
-    componentDidUpdate(prevProps: PaginationProps) {
-        if (
-            prevProps.pageCount !== this.props.pageCount ||
-            prevProps.selectedPage !== this.props.selectedPage
-        ) {
-            this.setState(this.getUpdatedState(this.props));
-        }
-    }
-
-    getUpdatedState(props: PaginationProps): PaginationState {
-        const { selectedPage, pageCount } = props;
-        return {
-            nextPage: selectedPage === pageCount ? pageCount : selectedPage + 1,
-            prevPage: selectedPage === 1 ? selectedPage : selectedPage - 1,
-            paginationItems: new Array(pageCount).fill(null).map((_, index) => index + 1),
-        };
-    }
-
-    drawPaginationItem(action: (page: number) => Promise<void>) {
-        return this.state.paginationItems.map((paginationItem) => (
+    const drawPaginationItem = () =>
+        paginationItems.map((paginationItem) => (
             <button
                 className={classNames({
                     [styles.item]: true,
-                    [styles.itemSelected]: paginationItem === this.props.selectedPage,
+                    [styles.itemSelected]: paginationItem === selectedPage,
                 })}
                 key={paginationItem}
                 onClick={() => action(paginationItem)}
@@ -51,33 +33,26 @@ class Pagination extends Component<PaginationProps, PaginationState> {
                 {paginationItem}
             </button>
         ));
-    }
 
-    render() {
-        const { action, pageCount } = this.props;
-
-        return (
-            <div className={styles.container}>
-                <div className={styles.itemContainer}>
-                    <button className={styles.item} onClick={async () => await action(1)}>
-                        &lt;&lt;
-                    </button>
-                    <button className={styles.item} onClick={() => action(this.state.prevPage)}>
-                        &lt;
-                    </button>
-                    {this.state.paginationItems.length
-                        ? this.drawPaginationItem(action)
-                        : 'No data available'}
-                    <button className={styles.item} onClick={() => action(this.state.nextPage)}>
-                        &gt;
-                    </button>
-                    <button className={styles.item} onClick={async () => await action(pageCount)}>
-                        &gt;&gt;
-                    </button>
-                </div>
+    return (
+        <div className={styles.container}>
+            <div className={styles.itemContainer}>
+                <button className={styles.item} onClick={() => action(1)}>
+                    &lt;&lt;
+                </button>
+                <button className={styles.item} onClick={() => action(prevPage)}>
+                    &lt;
+                </button>
+                {paginationItems.length ? drawPaginationItem() : 'No data available'}
+                <button className={styles.item} onClick={() => action(nextPage)}>
+                    &gt;
+                </button>
+                <button className={styles.item} onClick={() => action(pageCount)}>
+                    &gt;&gt;
+                </button>
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
 export default Pagination;
