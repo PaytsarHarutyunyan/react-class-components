@@ -5,7 +5,7 @@ import styles from './List.module.css';
 interface ListProps {
     loading: boolean;
     data: { name: string }[];
-    itemAction: (id: string | number) => void; // Ensure itemAction can accept an identifier
+    itemAction: (id: string) => Promise<void>; // Ensure itemAction can accept an identifier
 }
 
 const List: React.FC<ListProps> = ({ loading, data, itemAction }) => {

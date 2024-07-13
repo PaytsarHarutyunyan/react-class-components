@@ -3,6 +3,7 @@ module.exports = {
   env: {
     browser: true,
     es2020: true,
+    node: true,
     "jest/globals": true
   },
   extends: [
@@ -29,6 +30,7 @@ module.exports = {
     }
   },
   rules: {
+    'linebreak-style': ['error', 'unix'],
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true }

@@ -6,7 +6,7 @@ import Pagination from '../components/Pagination/Pagination';
 import Search from '../components/Search/Search';
 import NotFound from '../components/NotFound/NotFound';
 import styles from '../components/App/App.module.css';
-
+import { Tab, Result } from '@/types';
 interface RoutesProps {
     tabs: Tab[];
     selectedTab: Tab;

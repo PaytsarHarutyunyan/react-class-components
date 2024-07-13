@@ -6,12 +6,7 @@ export const useSelectedPage = () => {
 
     const getSelectedPage = () => (searchParams.get('page') ? Number(searchParams.get('page')) : 1);
 
-    const setSelectedPage = (page: number) => {
-        searchParams.set('page', String(page));
-    };
-
     return {
         getSelectedPage,
-        setSelectedPage,
     };
 };

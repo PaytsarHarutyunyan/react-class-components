@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styles from './App.module.css';
 import { getData } from '../../api/index';
-import { BASE_URL } from '../../constants/index';
+import { BASE_URL } from '@/constants/commonConstants';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import Routes from '../../routes/Routes';
-import { useSelectedPage } from '../../hooks/useGetSelectedPage';
-
-interface Tab {
-    name: string;
-    url: string;
-}
-
-interface Result {
-    count: number;
-    data: { name: string }[];
-}
+import { useSelectedPage } from '../../hooks/useSelectedPage';
+import { Result, Tab } from '@/types';
 
 const App: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -28,15 +19,11 @@ const App: React.FC = () => {
         { name: 'Starships', url: '/starships' },
         { name: 'Vehicles', url: '/vehicles' },
     ]);
-    const [singleResult, setSingleResult] = useState<{ [key: string]: string } | null>(null);
+    const [itemDetails] = useState<{ [key: string]: string } | null>(null);
     const [searchTerm, setSearchTerm] = useLocalStorage<string>('searchTerm', '');
 
     const { getSelectedPage } = useSelectedPage();
     const selectedPage = getSelectedPage();
-
-    useEffect(() => {
-        fetchData(selectedTab.url, { page: selectedPage });
-    }, [selectedTab.url, selectedPage]);
 
     const fetchData = async (url: string, options?: { searchTerm?: string; page?: number }) => {
         setLoading(true);
@@ -52,15 +39,20 @@ const App: React.FC = () => {
         setResult({ data: result.results, count: result.count });
     };
 
-    const headerBtnAction = async (tabName: string) => {
-        const selectedTab = tabs.find((tab) => tab.name === tabName) || selectedTab;
-        await fetchData(selectedTab.url, { searchTerm });
-        setSelectedTab(selectedTab);
+    useEffect(() => {
+        fetchData(selectedTab.url, { page: selectedPage });
+    }, [selectedTab.url, selectedPage]);
+
+    const changeTab = async (tabName: string) => {
+        const tabToSet = tabs.find((tab) => tab.name === tabName) || selectedTab;
+        await fetchData(tabToSet.url, { searchTerm });
+        setSelectedTab(tabToSet);
     };
 
-    const onClickItem = async (id: string) => {
-        const result = await fetchData(`${selectedTab.url}/${id}`);
-        setSingleResult(result);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const onClickItem = async () => {
+        // const result = await fetchData(`${selectedTab.url}/${id}`);
+        // setItemDetails(result);
     };
 
     const onClickPagination = async (page: number) => {
@@ -73,11 +65,11 @@ const App: React.FC = () => {
     };
 
     const drawSingleResult = () => {
-        if (!singleResult) return null;
-        return Object.keys(singleResult).map((key) => (
+        if (!itemDetails) return null;
+        return Object.keys(itemDetails).map((key) => (
             <span key={key}>
                 <h4 className={styles.key}>{key}:</h4>
-                <span>{singleResult[key]}</span>
+                <span>{itemDetails[key]}</span>
             </span>
         ));
     };
@@ -91,11 +83,11 @@ const App: React.FC = () => {
                         selectedTab={selectedTab}
                         result={result}
                         loading={loading}
-                        singleResult={singleResult}
+                        singleResult={itemDetails}
                         perPageCount={perPageCount}
                         searchTerm={searchTerm}
                         handleSearch={handleSearch}
-                        headerBtnAction={headerBtnAction}
+                        headerBtnAction={changeTab}
                         onClickItem={onClickItem}
                         onClickPagination={onClickPagination}
                         drawSingleResult={drawSingleResult}

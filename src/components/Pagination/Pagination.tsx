@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './Pagination.module.css';
 import { Link } from 'react-router-dom';
-import { useSelectedPage } from '../../hooks/useGetSelectedPage';
+import { useSelectedPage } from '../../hooks/useSelectedPage';
 
 interface PaginationProps {
     pageCount: number;
@@ -10,11 +10,10 @@ interface PaginationProps {
 }
 
 const Pagination: React.FC<PaginationProps> = ({ pageCount, action }) => {
-    const { getSelectedPage, setSelectedPage } = useSelectedPage();
+    const { getSelectedPage } = useSelectedPage();
     const selectedPage = getSelectedPage();
 
     const getPageLink = (pageNumber: number) => {
-        setSelectedPage(pageNumber);
         return `${location.pathname}?page=${pageNumber}`;
     };
 
