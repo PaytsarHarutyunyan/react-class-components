@@ -1,20 +1,16 @@
 import React from 'react';
 import classNames from 'classnames';
 import styles from './HeaderButtons.module.css';
+import { TABS } from '@/constants/commonConstants';
 
-interface Tab {
-    name: string;
-    url: string;
-}
 interface HeaderButtonsProps {
-    tabs: Tab[];
     selectedTabName: string;
     action: (tabName: string) => void;
 }
 
-const HeaderButtons: React.FC<HeaderButtonsProps> = ({ tabs, selectedTabName, action }) => {
+const HeaderButtons: React.FC<HeaderButtonsProps> = ({ selectedTabName, action }) => {
     const drawButtons = () =>
-        tabs.map((tab, index) => (
+        TABS.map((tab, index) => (
             <button
                 className={classNames({
                     [styles.item]: true,

@@ -3,7 +3,11 @@ export interface Tab {
     url: string;
 }
 
+export interface ResultItem {
+    name: string;
+    url: string;
+}
 export interface Result {
     count: number;
-    data: { name: string }[];
+    data: ResultItem[];
 }

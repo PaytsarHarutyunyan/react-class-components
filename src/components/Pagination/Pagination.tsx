@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './Pagination.module.css';
 import { Link } from 'react-router-dom';
-import { useSelectedPage } from '../../hooks/useSelectedPage';
+import { useQueryParams } from '../../hooks/useSelectedPage';
 
 interface PaginationProps {
     pageCount: number;
@@ -10,7 +10,7 @@ interface PaginationProps {
 }
 
 const Pagination: React.FC<PaginationProps> = ({ pageCount, action }) => {
-    const { getSelectedPage } = useSelectedPage();
+    const { getSelectedPage } = useQueryParams();
     const selectedPage = getSelectedPage();
 
     const getPageLink = (pageNumber: number) => {
@@ -22,6 +22,7 @@ const Pagination: React.FC<PaginationProps> = ({ pageCount, action }) => {
     const [prevPage, setPrevPage] = useState<number>(selectedPage - 1);
 
     useEffect(() => {
+        console.log({ pageCount });
         const items = new Array(pageCount).fill(null).map((_, index) => index + 1);
         setPaginationItems(items);
         setNextPage(selectedPage === pageCount ? pageCount : selectedPage + 1);
