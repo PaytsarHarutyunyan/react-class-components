@@ -12,99 +12,105 @@ exports[`App Component should render correctly 1`] = `
         class="content"
       >
         <div
-          class="searchContainer"
+          style="position: relative;"
         >
-          <input
-            placeholder="Search..."
-            type="text"
-            value=""
-          />
-          <button>
-            Search
-          </button>
-        </div>
-        <div
-          class="content"
-        >
-          <div
-            class="container"
-          >
-            <button
-              class="item itemSelected"
-            >
-              People
-            </button>
-            <button
-              class="item"
-            >
-              Planets
-            </button>
-            <button
-              class="item"
-            >
-              Species
-            </button>
-            <button
-              class="item"
-            >
-              Starships
-            </button>
-            <button
-              class="item"
-            >
-              Vehicles
-            </button>
-          </div>
-          <span>
-            Loading...
-          </span>
-          <div
-            class="container"
-          >
+          <div>
             <div
-              class="itemContainer"
+              class="searchContainer"
             >
-              <button
-                class="item"
-              >
-                <a
-                  href="/?page=1"
-                  style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
-                >
-                  &lt;&lt;
-                </a>
+              <input
+                placeholder="Search..."
+                type="text"
+                value=""
+              />
+              <button>
+                Search
               </button>
-              <button
-                class="item"
+            </div>
+            <div
+              class="content"
+            >
+              <div
+                class="container"
               >
-                <a
-                  href="/?page=1"
-                  style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
+                <button
+                  class="item itemSelected"
                 >
-                  &lt;
-                </a>
-              </button>
-              No data available
-              <button
-                class="item"
+                  People
+                </button>
+                <button
+                  class="item"
+                >
+                  Planets
+                </button>
+                <button
+                  class="item"
+                >
+                  Species
+                </button>
+                <button
+                  class="item"
+                >
+                  Starships
+                </button>
+                <button
+                  class="item"
+                >
+                  Vehicles
+                </button>
+              </div>
+              <span>
+                Loading...
+              </span>
+              <div
+                class="container"
               >
-                <a
-                  href="/?page=2"
-                  style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
+                <div
+                  class="itemContainer"
                 >
-                  &gt;
-                </a>
-              </button>
-              <button
-                class="item"
-              >
-                <a
-                  href="/?page=0"
-                  style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
-                >
-                  &gt;&gt;
-                </a>
-              </button>
+                  <button
+                    class="item"
+                  >
+                    <a
+                      href="/?page=1"
+                      style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
+                    >
+                      &lt;&lt;
+                    </a>
+                  </button>
+                  <button
+                    class="item"
+                  >
+                    <a
+                      href="/?page=1"
+                      style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
+                    >
+                      &lt;
+                    </a>
+                  </button>
+                  No data available
+                  <button
+                    class="item"
+                  >
+                    <a
+                      href="/?page=2"
+                      style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
+                    >
+                      &gt;
+                    </a>
+                  </button>
+                  <button
+                    class="item"
+                  >
+                    <a
+                      href="/?page=0"
+                      style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
+                    >
+                      &gt;&gt;
+                    </a>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

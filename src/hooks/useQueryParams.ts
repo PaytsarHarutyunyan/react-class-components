@@ -5,11 +5,12 @@ export const useQueryParams = () => {
     const searchParams = new URLSearchParams(location.search);
 
     const getSelectedPage = () => (searchParams.get('page') ? Number(searchParams.get('page')) : 1);
-    const getItemIdForDetailsPage = () =>
+
+    const getItemId = () =>
         searchParams.get('details') ? Number(searchParams.get('details')) : undefined;
 
     return {
         getSelectedPage,
-        getItemIdForDetailsPage,
+        getItemId,
     };
 };

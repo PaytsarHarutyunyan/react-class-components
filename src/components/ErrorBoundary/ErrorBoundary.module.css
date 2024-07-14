@@ -1,3 +1,5 @@
 .error {
-    margin: 50px 0 0 80px;
+    position: relative;
+    bottom: -110px;
+    left: 75px;
 }

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styles from './App.module.css';
 import { getData } from '../../api/index';
-import { BASE_URL } from '@/constants/commonConstants';
+import { BASE_URL, TABS } from '@/constants/commonConstants';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import Routes from '../../routes/Routes';
-import { useQueryParams } from '../../hooks/useSelectedPage';
+import { useQueryParams } from '../../hooks/useQueryParams';
 import { Result, Tab } from '@/types';
-import { TABS } from '@/constants/commonConstants';
 
 const App: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -25,17 +24,16 @@ const App: React.FC = () => {
         if (searchTerm) queryParams['search'] = searchTerm;
         if (page) queryParams['page'] = String(page);
 
-        const searchParams = new URLSearchParams(queryParams);
-        const result = await getData(`${BASE_URL}${path}?${searchParams.toString()}`);
+        const urlSearchParams = new URLSearchParams(queryParams);
+        const result = await getData(`${BASE_URL}${path}?${urlSearchParams.toString()}`);
 
         setLoading(false);
-
-        return result;
+        return { data: result.results, count: result.count };
     };
 
     useEffect(() => {
         fetchData(selectedTab.url, { page: selectedPage }).then((result) => {
-            setResult({ data: result.results, count: result.count });
+            setResult(result);
         });
     }, [selectedTab.url, selectedPage]);
 
@@ -43,18 +41,22 @@ const App: React.FC = () => {
         const tabToSet = TABS.find((tab) => tab.name === tabName) || selectedTab;
 
         const result = await fetchData(tabToSet.url, { searchTerm });
-        setResult({ data: result.results, count: result.count });
+        setResult(result);
 
         setSelectedTab(tabToSet);
     };
 
     const onClickPagination = async (page: number) => {
-        await fetchData(selectedTab.url, { searchTerm, page });
+        const result = await fetchData(selectedTab.url, { searchTerm, page });
+
+        setResult(result);
     };
 
     const handleSearch = async (searchTerm: string) => {
         setSearchTerm(searchTerm);
-        await fetchData(selectedTab.url, { searchTerm });
+        const result = await fetchData(selectedTab.url, { searchTerm });
+
+        setResult(result);
     };
 
     return (
