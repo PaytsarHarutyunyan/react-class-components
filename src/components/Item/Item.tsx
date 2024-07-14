@@ -11,12 +11,12 @@ interface ItemProps {
 const Item: React.FC<ItemProps> = ({ item }) => {
     const itemId = (item.url.match(/\/(\d+)\//) as string[])[1] as string;
     const { getSelectedPage } = useQueryParams();
-
     return (
         <div className={styles.item}>
             <button>
                 <Link
                     className={styles.link}
+                    onClick={() => {}}
                     to={`${location.pathname}?page=${getSelectedPage()}&details=${itemId}`}
                 >
                     {item.name}

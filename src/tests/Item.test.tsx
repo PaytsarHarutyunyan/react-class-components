@@ -1,18 +1,36 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, render } from '@testing-library/react';
 import Item from '../components/Item/Item';
 import { BASE_URL } from '@/constants/commonConstants';
+// import { renderWithRouter } from '@/testUtils';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 
 describe('Item Component', () => {
     test('renders item and handles click', () => {
-        render(<Item item={{ name: 'Test Item', url: BASE_URL }} />);
+        const history = createMemoryHistory();
+        history.push = jest.fn();
 
-        const itemButton = screen.getByText('Test Item');
-        expect(itemButton).toBeInTheDocument();
+        render(
+            <Router location={history.location} navigator={history}>
+                <Item item={{ name: 'Test Item', url: `${BASE_URL}/people/12/` }} />
+            </Router>,
+        );
 
-        fireEvent.click(itemButton);
+        const itemLink = screen.getByText('Test Item');
+        expect(itemLink).toBeInTheDocument();
 
-        // TODO: add fair assertion
-        expect(1).toBe(1);
+        fireEvent.click(itemLink);
+
+        expect(history.push).toHaveBeenCalledTimes(1);
+        expect(history.push).toHaveBeenCalledWith(
+            {
+                hash: '',
+                pathname: '/',
+                search: '?page=1&details=12',
+            },
+            undefined,
+            expect.any(Object),
+        );
     });
 });
