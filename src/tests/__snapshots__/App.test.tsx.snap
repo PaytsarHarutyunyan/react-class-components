@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App Component should render correctly 1`] = `
+<div>
+  <div
+    class="hero light"
+  >
+    <div
+      class="themeSelector"
+    >
+      <button>
+        Light Theme
+      </button>
+      <button>
+        Dark Theme
+      </button>
+    </div>
+    <div
+      class="container"
+    >
+      <div
+        class="content"
+      >
+        <div
+          style="position: relative;"
+        >
+          <div>
+            <div
+              class="searchContainer"
+            >
+              <input
+                placeholder="Search..."
+                type="text"
+                value=""
+              />
+              <button>
+                Search
+              </button>
+            </div>
+            <div
+              class="content"
+            >
+              <div
+                class="container"
+              >
+                <button
+                  class="item itemSelected"
+                >
+                  People
+                </button>
+                <button
+                  class="item"
+                >
+                  Planets
+                </button>
+                <button
+                  class="item"
+                >
+                  Species
+                </button>
+                <button
+                  class="item"
+                >
+                  Starships
+                </button>
+                <button
+                  class="item"
+                >
+                  Vehicles
+                </button>
+              </div>
+              <span>
+                Loading...
+              </span>
+              <div
+                class="container"
+              >
+                <div
+                  class="itemContainer"
+                >
+                  <button
+                    class="item"
+                  >
+                    <a
+                      href="/?page=1"
+                      style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
+                    >
+                      &lt;&lt;
+                    </a>
+                  </button>
+                  <button
+                    class="item"
+                  >
+                    <a
+                      href="/?page=1"
+                      style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
+                    >
+                      &lt;
+                    </a>
+                  </button>
+                  No data available
+                  <button
+                    class="item"
+                  >
+                    <a
+                      href="/?page=2"
+                      style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
+                    >
+                      &gt;
+                    </a>
+                  </button>
+                  <button
+                    class="item"
+                  >
+                    <a
+                      href="/?page=0"
+                      style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
+                    >
+                      &gt;&gt;
+                    </a>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
