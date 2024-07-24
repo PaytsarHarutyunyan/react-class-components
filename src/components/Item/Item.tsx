@@ -29,7 +29,12 @@ const Item: React.FC<ItemProps> = ({ item }) => {
     return (
         <div>
             <div className={styles.item}>
-                <input type='checkbox' checked={isSelected} onChange={handleSelect} />
+                <input
+                    className={styles.checkbox}
+                    type='checkbox'
+                    checked={isSelected}
+                    onChange={handleSelect}
+                />
                 <Link
                     to={`${location.pathname}?page=${getSelectedPage()}&details=${itemId}`}
                     className={styles.link}
