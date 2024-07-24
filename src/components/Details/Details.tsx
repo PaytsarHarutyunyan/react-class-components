@@ -1,51 +1,32 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useQueryParams } from '@/hooks/useQueryParams';
-import { BASE_URL } from '@/constants/commonConstants';
-import { getData } from '@/api';
-import { ResultItem } from '@/types';
+import React, { FC } from 'react';
+import { useGetItemDetailsQuery } from '@/store/apiSlice';
 import { Link } from 'react-router-dom';
 import styles from './Details.module.css';
 
 type DetailsProps = {
     selectedTabPath: string;
+    itemId: number;
+    selectedPage: number;
 };
 
-const Details: FC<DetailsProps> = ({ selectedTabPath }) => {
-    const [loading, setLoading] = useState(false);
-    const [details, setDetails] = useState<ResultItem | null>(null);
+const Details: FC<DetailsProps> = ({ selectedTabPath, itemId, selectedPage }) => {
+    const { data: details, isFetching } = useGetItemDetailsQuery({
+        path: selectedTabPath,
+        id: itemId,
+    });
 
-    const { getItemId, getSelectedPage } = useQueryParams();
-    const itemId = getItemId();
-
-    useEffect(() => {
-        if (!itemId) return undefined;
-        setLoading(true);
-        getData(`${BASE_URL}${selectedTabPath}\\${itemId}`).then((result) => {
-            setLoading(false);
-            setDetails(result);
-        });
-    }, [itemId, selectedTabPath]);
-
-    if (loading) {
-        return <span>Loading...</span>;
-    }
-
-    if (!itemId || !details) return null;
+    if (isFetching) return <span>Loading...</span>;
+    if (!details) return null;
 
     return (
         <div
+            data-testid='details-container'
             className={styles.detailsContainer}
             onClick={(e) => {
                 e.stopPropagation();
             }}
         >
-            <Link
-                className={styles.detailsLink}
-                onClick={() => {
-                    setDetails(null);
-                }}
-                to={`${location.pathname}?page=${getSelectedPage()}`}
-            >
+            <Link className={styles.detailsLink} to={`${location.pathname}?page=${selectedPage}`}>
                 X
             </Link>
             <div>

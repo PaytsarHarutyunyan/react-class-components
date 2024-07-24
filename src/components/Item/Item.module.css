@@ -3,6 +3,7 @@
     border-style: solid;
     border-color: #999;
     border-width: 0px 1px 1px 1px;
+    padding: 12px 12px;
 }
 
 .item > button {
@@ -19,6 +20,7 @@
 }
 
 .link {
+    font-weight: bold;
     text-decoration: none;
     color:rgb(0, 0, 0);
 }

@@ -10,14 +10,14 @@ import { Tab, Result } from '@/types';
 import { ITEMS_PER_PAGE_COUNT } from '@/constants/commonConstants';
 import Details from '@/components/Details/Details';
 import { useQueryParams } from '@/hooks/useQueryParams';
+
 interface RoutesProps {
     selectedTab: Tab;
-    result: Result;
+    result: Result | undefined;
     loading: boolean;
     searchTerm: string;
     handleSearch: (searchTerm: string) => Promise<void>;
     headerBtnAction: (tabName: string) => Promise<void>;
-    onClickPagination: (page: number) => Promise<void>;
 }
 
 const RoutesComponent: React.FC<RoutesProps> = ({
@@ -27,12 +27,12 @@ const RoutesComponent: React.FC<RoutesProps> = ({
     searchTerm,
     handleSearch,
     headerBtnAction,
-    onClickPagination,
 }) => {
     const { getItemId, getSelectedPage } = useQueryParams();
     const itemId = getItemId();
     const backdropStyles = itemId ? { opacity: 0.2 } : {};
     const navigate = useNavigate();
+    const selectedPage = getSelectedPage();
 
     return (
         <Routes>
@@ -43,7 +43,7 @@ const RoutesComponent: React.FC<RoutesProps> = ({
                         style={{ position: 'relative' }}
                         onClick={() => {
                             if (!itemId) return;
-                            navigate(`${location.pathname}?page=${getSelectedPage()}`);
+                            navigate(`${location.pathname}?page=${selectedPage}`);
                         }}
                     >
                         <div style={backdropStyles}>
@@ -53,10 +53,11 @@ const RoutesComponent: React.FC<RoutesProps> = ({
                                     selectedTabName={selectedTab.name}
                                     action={headerBtnAction}
                                 />
-                                <List data={result.data} loading={loading} />
+                                <List data={result ? result.results : []} loading={loading} />
                                 <Pagination
-                                    pageCount={Math.ceil(result.count / ITEMS_PER_PAGE_COUNT)}
-                                    action={onClickPagination}
+                                    pageCount={
+                                        result ? Math.ceil(result.count / ITEMS_PER_PAGE_COUNT) : 0
+                                    }
                                 />
                             </div>
                         </div>
@@ -64,7 +65,18 @@ const RoutesComponent: React.FC<RoutesProps> = ({
                     </div>
                 }
             >
-                <Route path='/' element={<Details selectedTabPath={selectedTab.url} />} />
+                <Route
+                    path='/'
+                    element={
+                        itemId ? (
+                            <Details
+                                selectedTabPath={selectedTab.url}
+                                itemId={itemId}
+                                selectedPage={selectedPage}
+                            />
+                        ) : null
+                    }
+                />
             </Route>
             <Route path='*' element={<NotFound />} />
         </Routes>

@@ -31,10 +31,6 @@ module.exports = {
   },
   rules: {
     'linebreak-style': ['error', 'unix'],
-    "react-refresh/only-export-components": [
-      "warn",
-      { allowConstantExport: true }
-    ],
     "prettier/prettier": "error",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",

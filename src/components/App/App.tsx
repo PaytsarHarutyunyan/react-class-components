@@ -1,66 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styles from './App.module.css';
-import { getData } from '../../api/index';
-import { BASE_URL, TABS } from '@/constants/commonConstants';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../store';
+import { useGetItemsQuery } from '../../store/apiSlice';
+import { setLoading } from '../../store/uiSlice';
+import { TABS } from '@/constants/commonConstants';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import Routes from '../../routes/Routes';
 import { useQueryParams } from '../../hooks/useQueryParams';
-import { Result, Tab } from '@/types';
+import { Tab } from '@/types';
+import { useTheme } from '../../context/ThemeProvider';
+import SelectedItemsFlyout from '../SelectedItemsFlyout/SelectedItemsFlyout';
 
 const App: React.FC = () => {
-    const [loading, setLoading] = useState<boolean>(false);
-    const [result, setResult] = useState<Result>({ count: 0, data: [] });
-    const [selectedTab, setSelectedTab] = useState<Tab>({ name: 'People', url: '/people' });
+    const dispatch = useDispatch<AppDispatch>();
+    const loading = useSelector((state: RootState) => state.ui.loading);
     const [searchTerm, setSearchTerm] = useLocalStorage<string>('searchTerm', '');
-
     const { getSelectedPage } = useQueryParams();
     const selectedPage = getSelectedPage();
-
-    const fetchData = async (path: string, options?: { searchTerm?: string; page?: number }) => {
-        setLoading(true);
-        const { searchTerm, page } = options || {};
-
-        const queryParams: Record<string, string> = {};
-        if (searchTerm) queryParams['search'] = searchTerm;
-        if (page) queryParams['page'] = String(page);
-
-        const urlSearchParams = new URLSearchParams(queryParams);
-        const result = await getData(`${BASE_URL}${path}?${urlSearchParams.toString()}`);
-
-        setLoading(false);
-        return { data: result.results, count: result.count };
-    };
+    const [selectedTab, setSelectedTab] = React.useState<Tab>({ name: 'People', url: '/people' });
+    const { data: result, isFetching } = useGetItemsQuery({
+        path: selectedTab.url,
+        searchTerm,
+        page: selectedPage,
+    });
+    const { theme, setTheme } = useTheme();
 
     useEffect(() => {
-        fetchData(selectedTab.url, { page: selectedPage }).then((result) => {
-            setResult(result);
-        });
-    }, [selectedTab.url, selectedPage]);
+        dispatch(setLoading(isFetching));
+    }, [isFetching, dispatch]);
 
     const changeTab = async (tabName: string) => {
         const tabToSet = TABS.find((tab) => tab.name === tabName) || selectedTab;
-
-        const result = await fetchData(tabToSet.url, { searchTerm });
-        setResult(result);
-
         setSelectedTab(tabToSet);
     };
 
-    const onClickPagination = async (page: number) => {
-        const result = await fetchData(selectedTab.url, { searchTerm, page });
-
-        setResult(result);
+    const handleSearch = async (term: string) => {
+        setSearchTerm(term);
     };
 
-    const handleSearch = async (searchTerm: string) => {
-        setSearchTerm(searchTerm);
-        const result = await fetchData(selectedTab.url, { searchTerm });
-
-        setResult(result);
+    const handleThemeChange = (newTheme: 'light' | 'dark') => {
+        setTheme(newTheme);
     };
 
     return (
-        <div className={styles.hero}>
+        <div className={`${styles.hero} ${theme === 'dark' ? styles.dark : styles.light}`}>
+            <div className={styles.themeSelector}>
+                <button onClick={() => handleThemeChange('light')}>Light Theme</button>
+                <button onClick={() => handleThemeChange('dark')}>Dark Theme</button>
+            </div>
             <div className={styles.container}>
                 <div className={styles.content}>
                     <Routes
@@ -70,9 +58,9 @@ const App: React.FC = () => {
                         searchTerm={searchTerm}
                         handleSearch={handleSearch}
                         headerBtnAction={changeTab}
-                        onClickPagination={onClickPagination}
                     />
                 </div>
+                <SelectedItemsFlyout />
             </div>
         </div>
     );

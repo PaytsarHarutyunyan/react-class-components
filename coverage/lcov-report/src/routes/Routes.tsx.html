@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">86.36% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/21</span>
+                <span class='fraction'>19/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/3</span>
+                <span class='fraction'>6/9</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">90.47% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>18/20</span>
+                <span class='fraction'>19/21</span>
             </div>
         
             
@@ -137,7 +137,19 @@
 <a name='L72'></a><a href='#L72'>72</a>
 <a name='L73'></a><a href='#L73'>73</a>
 <a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -167,13 +179,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -183,6 +195,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -223,14 +247,14 @@ import { Tab, Result } from '@/types';
 import { ITEMS_PER_PAGE_COUNT } from '@/constants/commonConstants';
 import Details from '@/components/Details/Details';
 import { useQueryParams } from '@/hooks/useQueryParams';
+&nbsp;
 interface RoutesProps {
     selectedTab: Tab;
-    result: Result;
+    result: Result | undefined;
     loading: boolean;
     searchTerm: string;
     handleSearch: (searchTerm: string) =&gt; Promise&lt;void&gt;;
     headerBtnAction: (tabName: string) =&gt; Promise&lt;void&gt;;
-    onClickPagination: (page: number) =&gt; Promise&lt;void&gt;;
 }
 &nbsp;
 const RoutesComponent: React.FC&lt;RoutesProps&gt; = ({
@@ -240,12 +264,12 @@ const RoutesComponent: React.FC&lt;RoutesProps&gt; = ({
     searchTerm,
     handleSearch,
     headerBtnAction,
-    onClickPagination,
 }) =&gt; {
     const { getItemId, getSelectedPage } = useQueryParams();
     const itemId = getItemId();
     const backdropStyles = itemId ? <span class="branch-0 cbranch-no" title="branch not covered" >{ opacity: 0.2 } </span>: {};
     const navigate = useNavigate();
+    const selectedPage = getSelectedPage();
 &nbsp;
     return (
         &lt;Routes&gt;
@@ -256,7 +280,7 @@ const RoutesComponent: React.FC&lt;RoutesProps&gt; = ({
                         style={{ position: 'relative' }}
                         onClick={<span class="fstat-no" title="function not covered" >() =</span>&gt; {
 <span class="cstat-no" title="statement not covered" >                            <span class="missing-if-branch" title="if path not taken" >I</span>if (!itemId) <span class="cstat-no" title="statement not covered" >return;</span></span>
-<span class="cstat-no" title="statement not covered" >                            navigate(`${location.pathname}?page=${getSelectedPage()}`);</span>
+<span class="cstat-no" title="statement not covered" >                            navigate(`${location.pathname}?page=${selectedPage}`);</span>
                         }}
                     &gt;
                         &lt;div style={backdropStyles}&gt;
@@ -266,10 +290,11 @@ const RoutesComponent: React.FC&lt;RoutesProps&gt; = ({
                                     selectedTabName={selectedTab.name}
                                     action={headerBtnAction}
                                 /&gt;
-                                &lt;List data={result.data} loading={loading} /&gt;
+                                &lt;List data={result ? result.results : []} loading={loading} /&gt;
                                 &lt;Pagination
-                                    pageCount={Math.ceil(result.count / ITEMS_PER_PAGE_COUNT)}
-                                    action={onClickPagination}
+                                    pageCount={
+                                        result ? Math.ceil(result.count / ITEMS_PER_PAGE_COUNT) : 0
+                                    }
                                 /&gt;
                             &lt;/div&gt;
                         &lt;/div&gt;
@@ -277,7 +302,18 @@ const RoutesComponent: React.FC&lt;RoutesProps&gt; = ({
                     &lt;/div&gt;
                 }
             &gt;
-                &lt;Route path='/' element={&lt;Details selectedTabPath={selectedTab.url} /&gt;} /&gt;
+                &lt;Route
+                    path='/'
+                    element={
+                        itemId ? (
+<span class="branch-0 cbranch-no" title="branch not covered" >                            &lt;Details</span>
+                                selectedTabPath={selectedTab.url}
+                                itemId={itemId}
+                                selectedPage={selectedPage}
+                            /&gt;
+                        ) : null
+                    }
+                /&gt;
             &lt;/Route&gt;
             &lt;Route path='*' element={&lt;NotFound /&gt;} /&gt;
         &lt;/Routes&gt;
@@ -292,7 +328,7 @@ export default RoutesComponent;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-07-14T15:39:50.057Z
+                at 2024-07-24T19:26:53.145Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -9,5 +9,9 @@ export interface ResultItem {
 }
 export interface Result {
     count: number;
-    data: ResultItem[];
+    results: ResultItem[];
+    next?: string;
+    previous?: string;
 }
+
+export type Theme = 'light' | 'dark';

@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+.hero {
+    height: 780px;
+}
+
 .container {
     width: 90%;
     margin: auto;
@@ -24,4 +28,21 @@
 
 .key {
     display: inline-block;
+}
+
+.light {
+    background-color: #f5f4f4;
+    color: #000000;
+}
+
+.dark {
+    background-color: #3b3838;
+    color: #ffffff;
+}
+
+.themeSelector {
+    display: flex;
+    width: 200px;
+    margin-left: 75px;
+    gap: 50px;
 }

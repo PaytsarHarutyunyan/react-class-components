@@ -5,7 +5,7 @@ import { Result } from '@/types';
 
 interface ListProps {
     loading: boolean;
-    data: Result['data'];
+    data: Result['results'];
 }
 
 const List: React.FC<ListProps> = ({ loading, data }) => {

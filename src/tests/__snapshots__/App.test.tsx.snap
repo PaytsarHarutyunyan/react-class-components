@@ -3,8 +3,18 @@
 exports[`App Component should render correctly 1`] = `
 <div>
   <div
-    class="hero"
+    class="hero light"
   >
+    <div
+      class="themeSelector"
+    >
+      <button>
+        Light Theme
+      </button>
+      <button>
+        Dark Theme
+      </button>
+    </div>
     <div
       class="container"
     >

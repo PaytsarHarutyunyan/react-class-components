@@ -1,70 +1,61 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { renderWithProvidersAndRouter } from '../testUtils'; // Custom render function
+import { screen } from '@testing-library/react';
 import Details from '../components/Details/Details';
-import { BASE_URL } from '@/constants/commonConstants';
-import { getData } from '@/api';
-import itemsDetailsMock from './mocks/itemDetails.json';
+import { useGetItemDetailsQuery } from '@/store/apiSlice'; // Import the hook to mock
 
-jest.mock('@/api', () => ({
-    getData: jest.fn(() => Promise.resolve(itemsDetailsMock)),
+// Mock the useGetItemDetailsQuery hook
+jest.mock('@/store/apiSlice', () => ({
+    ...jest.requireActual('@/store/apiSlice'),
+    useGetItemDetailsQuery: jest.fn(),
 }));
 
-jest.mock('@/hooks/useQueryParams', () => ({
-    useQueryParams: () => ({
-        getItemId: () => '1',
-        getSelectedPage: () => '1',
-    }),
+jest.mock('@reduxjs/toolkit/query/react', () => ({
+    ...jest.requireActual('@reduxjs/toolkit/query/react'),
+    fetchBaseQuery: jest.fn(),
 }));
 
 describe('Details Component', () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
+    const mockData = {
+        name: 'Test Item',
+        description: 'This is a test item description',
+    };
 
-    test('Check that a loading indicator is displayed while fetching data', async () => {
-        render(
-            <Router>
-                <Details selectedTabPath='/people' />
-            </Router>,
+    it('displays loading state', () => {
+        (useGetItemDetailsQuery as jest.Mock).mockReturnValue({ data: null, isFetching: true });
+
+        renderWithProvidersAndRouter(
+            <Details selectedTabPath='path' itemId={1} selectedPage={1} />,
         );
 
-        expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
-
-        await waitFor(() => {
-            expect(getData).toHaveBeenCalledWith(`${BASE_URL}/people\\1`);
-        });
+        expect(screen.getByText('Loading...')).toBeInTheDocument();
     });
 
-    test('Make sure the detailed card component correctly displays the detailed card data', async () => {
-        const { container, getByText } = render(
-            <Router>
-                <Details selectedTabPath='/people' />
-            </Router>,
-        );
-
-        await waitFor(() => {
-            expect(getByText('Details')).toBeInTheDocument();
+    it('displays details', () => {
+        (useGetItemDetailsQuery as jest.Mock).mockReturnValue({
+            data: mockData,
+            isFetching: false,
         });
 
-        expect(container).toMatchSnapshot();
+        renderWithProvidersAndRouter(
+            <Details selectedTabPath='path' itemId={1} selectedPage={1} />,
+        );
+
+        expect(screen.getByTestId('details-container')).toBeInTheDocument();
+        expect(screen.getByText('Details')).toBeInTheDocument();
+        expect(screen.getByText('name:')).toBeInTheDocument();
+        expect(screen.getByText('Test Item')).toBeInTheDocument();
+        expect(screen.getByText('description:')).toBeInTheDocument();
+        expect(screen.getByText('This is a test item description')).toBeInTheDocument();
     });
 
-    test('Ensure that clicking the close button hides the component', async () => {
-        render(
-            <Router>
-                <Details selectedTabPath='/people' />
-            </Router>,
+    it('renders nothing when no details are available', () => {
+        (useGetItemDetailsQuery as jest.Mock).mockReturnValue({ data: null, isFetching: false });
+
+        const { container } = renderWithProvidersAndRouter(
+            <Details selectedTabPath='path' itemId={1} selectedPage={1} />,
         );
 
-        await waitFor(() => {
-            expect(screen.getByText(/Details/i)).toBeInTheDocument();
-        });
-
-        fireEvent.click(screen.getByText(/X/i));
-
-        await waitFor(() => {
-            expect(screen.queryByText(/Details/i)).not.toBeInTheDocument();
-        });
+        expect(container.firstChild).toBeNull();
     });
 });

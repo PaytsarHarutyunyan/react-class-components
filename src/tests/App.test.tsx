@@ -2,7 +2,7 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import App from '../components/App/App';
 import fetchMock from 'jest-fetch-mock';
-import { renderWithRouter } from '@/testUtils';
+import { renderWithProvidersAndRouter } from '@/testUtils';
 import peopleMock from './mocks/peopleMock.json';
 
 // Initialize fetchMock
@@ -25,7 +25,7 @@ describe('App Component', () => {
         fetchMock.mockResponse(
             JSON.stringify({ results: peopleMock, count: 10, prev: null, next: null }),
         );
-        const { container } = renderWithRouter(<App />);
+        const { container } = renderWithProvidersAndRouter(<App />);
 
         expect(container).toMatchSnapshot();
     });
@@ -35,19 +35,9 @@ describe('App Component', () => {
             JSON.stringify({ results: peopleMock, count: 10, prev: null, next: null }),
         );
 
-        renderWithRouter(<App />);
+        renderWithProvidersAndRouter(<App />);
         mockTabs.forEach(async (tab) => {
             await waitFor(() => expect(screen.getByText(tab.name)).toBeInTheDocument());
         });
-    });
-
-    test('fetches and displays data', async () => {
-        fetchMock.mockResponse(JSON.stringify({ results: [], count: 0 }));
-
-        renderWithRouter(<App />);
-        await waitFor(() =>
-            expect(fetchMock).toHaveBeenCalledWith('https://swapi.dev/api/people?page=1'),
-        );
-        expect(screen.getAllByText('No data available')[0]).toBeInTheDocument();
     });
 });

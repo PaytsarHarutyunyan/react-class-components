@@ -2,16 +2,16 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import List from '../components/List/List';
 import { BASE_URL } from '@/constants/commonConstants';
-import { renderWithRouter } from '@/testUtils';
+import { renderWithProvidersAndRouter } from '@/testUtils';
 
 describe('List Component', () => {
     test('renders loading state', () => {
-        renderWithRouter(<List loading={true} data={[]} />);
+        renderWithProvidersAndRouter(<List loading={true} data={[]} />);
         expect(screen.getByText('Loading...')).toBeInTheDocument();
     });
 
     test('renders no data state', () => {
-        renderWithRouter(<List loading={false} data={[]} />);
+        renderWithProvidersAndRouter(<List loading={false} data={[]} />);
         expect(screen.getByText('No data available')).toBeInTheDocument();
     });
 
@@ -20,7 +20,7 @@ describe('List Component', () => {
             { name: 'Item 1', url: `${BASE_URL}/people/11/` },
             { name: 'Item 2', url: `${BASE_URL}/people/12/` },
         ];
-        renderWithRouter(<List loading={false} data={mockData} />);
+        renderWithProvidersAndRouter(<List loading={false} data={mockData} />);
 
         mockData.forEach((item) => {
             expect(screen.getByText(item.name)).toBeInTheDocument();
