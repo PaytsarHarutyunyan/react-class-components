@@ -1,5 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import styles from '../ErrorBoundary/ErrorBoundary.module.css';
+import styles from '../../styles/ErrorBoundary.module.css';
 
 interface ErrorBoundaryState {
     hasError: boolean;

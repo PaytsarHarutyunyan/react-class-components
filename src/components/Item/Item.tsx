@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './Item.module.css';
+import styles from '../../styles/Item.module.css';
 import { ResultItem } from '@/types';
 import { useQueryParams } from '@/hooks/useQueryParams';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { selectItem, unselectItem } from '@/store/selectedItemsSlice';
+import Link from 'next/link';
 
 interface ItemProps {
     item: ResultItem;
@@ -36,7 +36,7 @@ const Item: React.FC<ItemProps> = ({ item }) => {
                     onChange={handleSelect}
                 />
                 <Link
-                    to={`${location.pathname}?page=${getSelectedPage()}&details=${itemId}`}
+                    href={`${location.pathname}?page=${getSelectedPage()}&details=${itemId}`}
                     className={styles.link}
                 >
                     {item.name}

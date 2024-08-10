@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import styles from './HeaderButtons.module.css';
+import styles from '../../styles/HeaderButtons.module.css';
 import { TABS } from '@/constants/commonConstants';
 
 interface HeaderButtonsProps {

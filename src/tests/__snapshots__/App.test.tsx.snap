@@ -80,20 +80,22 @@ exports[`App Component should render correctly 1`] = `
                 >
                   <button
                     class="item"
+                    style="position: relative;"
                   >
                     <a
                       href="/?page=1"
-                      style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
+                      style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
                     >
                       &lt;&lt;
                     </a>
                   </button>
                   <button
                     class="item"
+                    style="position: relative;"
                   >
                     <a
                       href="/?page=1"
-                      style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
+                      style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
                     >
                       &lt;
                     </a>
@@ -101,20 +103,22 @@ exports[`App Component should render correctly 1`] = `
                   No data available
                   <button
                     class="item"
+                    style="position: relative;"
                   >
                     <a
                       href="/?page=2"
-                      style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
+                      style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
                     >
                       &gt;
                     </a>
                   </button>
                   <button
                     class="item"
+                    style="position: relative;"
                   >
                     <a
                       href="/?page=0"
-                      style="display: block; color: rgb(255, 255, 255); text-decoration: none;"
+                      style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
                     >
                       &gt;&gt;
                     </a>

@@ -4,7 +4,7 @@ import { RootState } from '@/store';
 import { unselectAllItems } from '@/store/selectedItemsSlice';
 import { saveAs } from 'file-saver';
 import { ResultItem } from '@/types';
-import styles from './SelectedItemsFlyout.module.css';
+import styles from '../../styles/SelectedItemsFlyout.module.css';
 
 const getItemCategory = (url: string) => {
     const pattern = /https:\/\/swapi\.dev\/api\/([^/]+)\/\d+\//;

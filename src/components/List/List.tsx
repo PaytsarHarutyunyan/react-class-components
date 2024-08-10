@@ -1,6 +1,6 @@
 import React from 'react';
 import Item from '../Item/Item';
-import styles from './List.module.css';
+import styles from '../../styles/List.module.css';
 import { Result } from '@/types';
 
 interface ListProps {

@@ -1,8 +1,17 @@
 import React from 'react';
-import { renderWithProvidersAndRouter } from '../testUtils'; // Custom render function
+import { renderWithProviders } from '../testUtils'; // Custom render function
 import { screen } from '@testing-library/react';
-import Details from '../components/Details/Details';
+import Details from '../pages/details';
 import { useGetItemDetailsQuery } from '@/store/apiSlice'; // Import the hook to mock
+
+const mockPush = jest.fn();
+jest.mock('next/router', () => ({
+    useRouter: jest.fn(() => ({
+        pathname: '/',
+        query: {},
+        push: mockPush,
+    })),
+}));
 
 // Mock the useGetItemDetailsQuery hook
 jest.mock('@/store/apiSlice', () => ({
@@ -24,9 +33,7 @@ describe('Details Component', () => {
     it('displays loading state', () => {
         (useGetItemDetailsQuery as jest.Mock).mockReturnValue({ data: null, isFetching: true });
 
-        renderWithProvidersAndRouter(
-            <Details selectedTabPath='path' itemId={1} selectedPage={1} />,
-        );
+        renderWithProviders(<Details selectedTabPath='path' itemId={1} selectedPage={1} />);
 
         expect(screen.getByText('Loading...')).toBeInTheDocument();
     });
@@ -37,9 +44,7 @@ describe('Details Component', () => {
             isFetching: false,
         });
 
-        renderWithProvidersAndRouter(
-            <Details selectedTabPath='path' itemId={1} selectedPage={1} />,
-        );
+        renderWithProviders(<Details selectedTabPath='path' itemId={1} selectedPage={1} />);
 
         expect(screen.getByTestId('details-container')).toBeInTheDocument();
         expect(screen.getByText('Details')).toBeInTheDocument();
@@ -52,7 +57,7 @@ describe('Details Component', () => {
     it('renders nothing when no details are available', () => {
         (useGetItemDetailsQuery as jest.Mock).mockReturnValue({ data: null, isFetching: false });
 
-        const { container } = renderWithProvidersAndRouter(
+        const { container } = renderWithProviders(
             <Details selectedTabPath='path' itemId={1} selectedPage={1} />,
         );
 

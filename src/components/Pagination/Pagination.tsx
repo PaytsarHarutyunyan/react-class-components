@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import classNames from 'classnames';
-import styles from './Pagination.module.css';
-import { Link } from 'react-router-dom';
+import styles from '../../styles/Pagination.module.css';
 import { useQueryParams } from '../../hooks/useQueryParams';
+import Link from 'next/link';
 
 interface PaginationProps {
     pageCount: number;
@@ -12,7 +13,12 @@ const Pagination: React.FC<PaginationProps> = ({ pageCount }) => {
     const { getSelectedPage } = useQueryParams();
     const selectedPage = getSelectedPage();
 
-    const getPageLink = (pageNumber: number) => `${location.pathname}?page=${pageNumber}`;
+    const router = useRouter();
+
+    // Function to generate the page link
+    const getPageLink = (pageNumber: number) => {
+        return `${router.pathname}?page=${pageNumber}`;
+    };
 
     const [paginationItems, setPaginationItems] = useState<number[]>([]);
     const [nextPage, setNextPage] = useState<number>(selectedPage + 1);
@@ -28,6 +34,7 @@ const Pagination: React.FC<PaginationProps> = ({ pageCount }) => {
     const drawPaginationItems = () =>
         paginationItems.map((paginationItem) => (
             <button
+                style={{ position: 'relative' }}
                 className={classNames({
                     [styles.item]: true,
                     [styles.itemSelected]: paginationItem === selectedPage,
@@ -35,8 +42,20 @@ const Pagination: React.FC<PaginationProps> = ({ pageCount }) => {
                 key={paginationItem}
             >
                 <Link
-                    style={{ display: 'block', color: '#ffffff', textDecoration: 'none' }}
-                    to={getPageLink(paginationItem)}
+                    style={{
+                        display: 'flex',
+                        color: '#ffffff',
+                        textDecoration: 'none',
+                        position: 'absolute',
+                        margin: 'auto',
+                        top: '0',
+                        left: '0',
+                        right: '0',
+                        bottom: '0',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                    href={getPageLink(paginationItem)}
                 >
                     {paginationItem}
                 </Link>
@@ -46,35 +65,83 @@ const Pagination: React.FC<PaginationProps> = ({ pageCount }) => {
     return (
         <div className={styles.container}>
             <div className={styles.itemContainer}>
-                <button className={styles.item}>
+                <button className={styles.item} style={{ position: 'relative' }}>
                     <Link
-                        style={{ display: 'block', color: '#ffffff', textDecoration: 'none' }}
-                        to={getPageLink(1)}
+                        style={{
+                            display: 'flex',
+                            color: '#ffffff',
+                            textDecoration: 'none',
+                            position: 'absolute',
+                            margin: 'auto',
+                            top: '0',
+                            left: '0',
+                            right: '0',
+                            bottom: '0',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                        href={getPageLink(1)}
                     >
                         &lt;&lt;
                     </Link>
                 </button>
-                <button className={styles.item}>
+                <button className={styles.item} style={{ position: 'relative' }}>
                     <Link
-                        style={{ display: 'block', color: '#ffffff', textDecoration: 'none' }}
-                        to={getPageLink(prevPage)}
+                        style={{
+                            display: 'flex',
+                            color: '#ffffff',
+                            textDecoration: 'none',
+                            position: 'absolute',
+                            margin: 'auto',
+                            top: '0',
+                            left: '0',
+                            right: '0',
+                            bottom: '0',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                        href={getPageLink(prevPage)}
                     >
                         &lt;
                     </Link>
                 </button>
                 {paginationItems.length ? drawPaginationItems() : 'No data available'}
-                <button className={styles.item}>
+                <button className={styles.item} style={{ position: 'relative' }}>
                     <Link
-                        style={{ display: 'block', color: '#ffffff', textDecoration: 'none' }}
-                        to={getPageLink(nextPage)}
+                        style={{
+                            display: 'flex',
+                            color: '#ffffff',
+                            textDecoration: 'none',
+                            position: 'absolute',
+                            margin: 'auto',
+                            top: '0',
+                            left: '0',
+                            right: '0',
+                            bottom: '0',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                        href={getPageLink(nextPage)}
                     >
                         &gt;
                     </Link>
                 </button>
-                <button className={styles.item}>
+                <button className={styles.item} style={{ position: 'relative' }}>
                     <Link
-                        style={{ display: 'block', color: '#ffffff', textDecoration: 'none' }}
-                        to={getPageLink(pageCount)}
+                        style={{
+                            display: 'flex',
+                            color: '#ffffff',
+                            textDecoration: 'none',
+                            position: 'absolute',
+                            margin: 'auto',
+                            top: '0',
+                            left: '0',
+                            right: '0',
+                            bottom: '0',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                        href={getPageLink(pageCount)}
                     >
                         &gt;&gt;
                     </Link>

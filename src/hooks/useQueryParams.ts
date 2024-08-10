@@ -1,16 +1,15 @@
-import { useLocation } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 export const useQueryParams = () => {
-    const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
+    const router = useRouter();
+    const { query } = router;
 
-    const getSelectedPage = () => (searchParams.get('page') ? Number(searchParams.get('page')) : 1);
-
-    const getItemId = () =>
-        searchParams.get('details') ? Number(searchParams.get('details')) : undefined;
+    const getSelectedPage = () => {
+        const page = query.page ? Number(query.page) : 1;
+        return page;
+    };
 
     return {
         getSelectedPage,
-        getItemId,
     };
 };

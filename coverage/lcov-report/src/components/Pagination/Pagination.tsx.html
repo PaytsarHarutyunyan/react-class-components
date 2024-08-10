@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>24/24</span>
+                <span class='fraction'>26/26</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>22/22</span>
+                <span class='fraction'>24/24</span>
             </div>
         
             
@@ -150,7 +150,15 @@
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a>
 <a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -164,8 +172,13 @@
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">38x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -195,7 +208,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -238,10 +252,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import classNames from 'classnames';
-import styles from './Pagination.module.css';
-import { Link } from 'react-router-dom';
+import styles from '../../styles/Pagination.module.css';
 import { useQueryParams } from '../../hooks/useQueryParams';
+import Link from 'next/link';
 &nbsp;
 interface PaginationProps {
     pageCount: number;
@@ -251,7 +266,12 @@ const Pagination: React.FC&lt;PaginationProps&gt; = ({ pageCount }) =&gt; {
     const { getSelectedPage } = useQueryParams();
     const selectedPage = getSelectedPage();
 &nbsp;
-    const getPageLink = (pageNumber: number) =&gt; `${location.pathname}?page=${pageNumber}`;
+    const router = useRouter();
+  
+    // Function to generate the page link
+    const getPageLink = (pageNumber: number) =&gt; {
+      return `${router.pathname}?page=${pageNumber}`;
+    };
 &nbsp;
     const [paginationItems, setPaginationItems] = useState&lt;number[]&gt;([]);
     const [nextPage, setNextPage] = useState&lt;number&gt;(selectedPage + 1);
@@ -261,12 +281,13 @@ const Pagination: React.FC&lt;PaginationProps&gt; = ({ pageCount }) =&gt; {
         const items = new Array(pageCount).fill(null).map((_, index) =&gt; index + 1);
         setPaginationItems(items);
         setNextPage(selectedPage === pageCount ? pageCount : selectedPage + 1);
-        setPrevPage(selectedPage === 1 ? 1 : <span class="branch-1 cbranch-no" title="branch not covered" >selectedPage - 1)</span>;
+        setPrevPage(selectedPage === 1 ? 1 : <span class="branch-1 cbranch-no" title="branch not covered" >selectedPage - 1);</span>
     }, [selectedPage, pageCount]);
 &nbsp;
     const drawPaginationItems = () =&gt;
         paginationItems.map((paginationItem) =&gt; (
             &lt;button
+                style={{ position: 'relative' }}
                 className={classNames({
                     [styles.item]: true,
                     [styles.itemSelected]: paginationItem === selectedPage,
@@ -274,8 +295,8 @@ const Pagination: React.FC&lt;PaginationProps&gt; = ({ pageCount }) =&gt; {
                 key={paginationItem}
             &gt;
                 &lt;Link
-                    style={{ display: 'block', color: '#ffffff', textDecoration: 'none' }}
-                    to={getPageLink(paginationItem)}
+                    style={{ display: 'flex', color: '#ffffff', textDecoration: 'none', position: 'absolute', margin: 'auto', top: '0', left: '0', right: '0', bottom: '0', alignItems: 'center', justifyContent: 'center' }}
+                    href={getPageLink(paginationItem)}
                 &gt;
                     {paginationItem}
                 &lt;/Link&gt;
@@ -285,35 +306,35 @@ const Pagination: React.FC&lt;PaginationProps&gt; = ({ pageCount }) =&gt; {
     return (
         &lt;div className={styles.container}&gt;
             &lt;div className={styles.itemContainer}&gt;
-                &lt;button className={styles.item}&gt;
+                &lt;button className={styles.item} style={{ position: 'relative' }}&gt;
                     &lt;Link
-                        style={{ display: 'block', color: '#ffffff', textDecoration: 'none' }}
-                        to={getPageLink(1)}
+                        style={{ display: 'flex', color: '#ffffff', textDecoration: 'none', position: 'absolute', margin: 'auto', top: '0', left: '0', right: '0', bottom: '0', alignItems: 'center', justifyContent: 'center' }}
+                        href={getPageLink(1)}
                     &gt;
                         &amp;lt;&amp;lt;
                     &lt;/Link&gt;
                 &lt;/button&gt;
-                &lt;button className={styles.item}&gt;
+                &lt;button className={styles.item} style={{ position: 'relative' }}&gt;
                     &lt;Link
-                        style={{ display: 'block', color: '#ffffff', textDecoration: 'none' }}
-                        to={getPageLink(prevPage)}
+                        style={{ display: 'flex', color: '#ffffff', textDecoration: 'none', position: 'absolute', margin: 'auto', top: '0', left: '0', right: '0', bottom: '0', alignItems: 'center', justifyContent: 'center' }}
+                        href={getPageLink(prevPage)}
                     &gt;
                         &amp;lt;
                     &lt;/Link&gt;
                 &lt;/button&gt;
                 {paginationItems.length ? drawPaginationItems() : 'No data available'}
-                &lt;button className={styles.item}&gt;
+                &lt;button className={styles.item} style={{ position: 'relative' }}&gt;
                     &lt;Link
-                        style={{ display: 'block', color: '#ffffff', textDecoration: 'none' }}
-                        to={getPageLink(nextPage)}
+                        style={{ display: 'flex', color: '#ffffff', textDecoration: 'none', position: 'absolute', margin: 'auto', top: '0', left: '0', right: '0', bottom: '0', alignItems: 'center', justifyContent: 'center' }}
+                        href={getPageLink(nextPage)}
                     &gt;
                         &amp;gt;
                     &lt;/Link&gt;
                 &lt;/button&gt;
-                &lt;button className={styles.item}&gt;
+                &lt;button className={styles.item} style={{ position: 'relative' }}&gt;
                     &lt;Link
-                        style={{ display: 'block', color: '#ffffff', textDecoration: 'none' }}
-                        to={getPageLink(pageCount)}
+                        style={{ display: 'flex', color: '#ffffff', textDecoration: 'none', position: 'absolute', margin: 'auto', top: '0', left: '0', right: '0', bottom: '0', alignItems: 'center', justifyContent: 'center' }}
+                        href={getPageLink(pageCount)}
                     &gt;
                         &amp;gt;&amp;gt;
                     &lt;/Link&gt;
@@ -331,7 +352,7 @@ export default Pagination;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-07-24T19:26:53.145Z
+                at 2024-08-10T17:37:40.747Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

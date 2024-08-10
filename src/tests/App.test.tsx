@@ -1,8 +1,8 @@
 import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
-import App from '../components/App/App';
+import App from '../pages';
 import fetchMock from 'jest-fetch-mock';
-import { renderWithProvidersAndRouter } from '@/testUtils';
+import { renderWithProviders } from '@/testUtils';
 import peopleMock from './mocks/peopleMock.json';
 
 // Initialize fetchMock
@@ -16,6 +16,15 @@ const mockTabs = [
     { name: 'Vehicles', url: '/vehicles' },
 ];
 
+const mockPush = jest.fn();
+jest.mock('next/router', () => ({
+    useRouter: jest.fn(() => ({
+        pathname: '/',
+        query: {},
+        push: mockPush,
+    })),
+}));
+
 describe('App Component', () => {
     beforeEach(() => {
         fetchMock.resetMocks(); // Reset mocks before each test
@@ -25,7 +34,7 @@ describe('App Component', () => {
         fetchMock.mockResponse(
             JSON.stringify({ results: peopleMock, count: 10, prev: null, next: null }),
         );
-        const { container } = renderWithProvidersAndRouter(<App />);
+        const { container } = renderWithProviders(<App />);
 
         expect(container).toMatchSnapshot();
     });
@@ -35,7 +44,7 @@ describe('App Component', () => {
             JSON.stringify({ results: peopleMock, count: 10, prev: null, next: null }),
         );
 
-        renderWithProvidersAndRouter(<App />);
+        renderWithProviders(<App />);
         mockTabs.forEach(async (tab) => {
             await waitFor(() => expect(screen.getByText(tab.name)).toBeInTheDocument());
         });

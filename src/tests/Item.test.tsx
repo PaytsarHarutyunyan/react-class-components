@@ -1,11 +1,8 @@
 import React from 'react';
-import { screen, fireEvent, render } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import Item from '../components/Item/Item';
-import { Provider } from 'react-redux';
-import store from '../store';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
-import { renderWithProvidersAndRouter } from '../testUtils';
+import { useRouter } from 'next/router';
+import { renderWithProviders } from '../testUtils';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectItem, unselectItem } from '@/store/selectedItemsSlice';
 import { useQueryParams } from '@/hooks/useQueryParams';
@@ -15,7 +12,6 @@ jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux'),
     useDispatch: jest.fn(),
     useSelector: jest.fn(),
-    useStore: jest.fn(),
 }));
 
 jest.mock('@/hooks/useQueryParams', () => ({
@@ -24,9 +20,17 @@ jest.mock('@/hooks/useQueryParams', () => ({
 
 // Mock the selectItem and unselectItem actions
 jest.mock('@/store/selectedItemsSlice', () => ({
-    ...jest.requireActual('react-redux'),
     selectItem: jest.fn(),
     unselectItem: jest.fn(),
+}));
+
+const mockPush = jest.fn();
+jest.mock('next/router', () => ({
+    useRouter: jest.fn(() => ({
+        pathname: '/',
+        query: {},
+        push: mockPush,
+    })),
 }));
 
 describe('Item Component', () => {
@@ -51,6 +55,12 @@ describe('Item Component', () => {
             getSelectedPage: mockGetSelectedPage,
         });
         mockGetSelectedPage.mockReturnValue(1);
+
+        (useRouter as jest.Mock).mockReturnValue({
+            pathname: '/',
+            query: {},
+            push: mockPush,
+        });
     });
 
     afterEach(() => {
@@ -58,13 +68,10 @@ describe('Item Component', () => {
     });
 
     it('renders item with correct name and link', () => {
-        renderWithProvidersAndRouter(<Item item={mockItem} />);
+        renderWithProviders(<Item item={mockItem} />);
 
         expect(screen.getByText('Test Item')).toBeInTheDocument();
-        expect(screen.getByRole('link')).toHaveAttribute(
-            'href',
-            `${location.pathname}?page=1&details=1`,
-        );
+        expect(screen.getByRole('link')).toHaveAttribute('href', '/?page=1&details=1');
     });
 
     it('checkbox is checked if item is selected', () => {
@@ -76,19 +83,19 @@ describe('Item Component', () => {
             }),
         );
 
-        renderWithProvidersAndRouter(<Item item={mockItem} />);
+        renderWithProviders(<Item item={mockItem} />);
 
         expect(screen.getByRole('checkbox')).toBeChecked();
     });
 
     it('checkbox is not checked if item is not selected', () => {
-        renderWithProvidersAndRouter(<Item item={mockItem} />);
+        renderWithProviders(<Item item={mockItem} />);
 
         expect(screen.getByRole('checkbox')).not.toBeChecked();
     });
 
     it('dispatches selectItem when checkbox is clicked and item is not selected', () => {
-        renderWithProvidersAndRouter(<Item item={mockItem} />);
+        renderWithProviders(<Item item={mockItem} />);
 
         fireEvent.click(screen.getByRole('checkbox'));
 
@@ -104,39 +111,10 @@ describe('Item Component', () => {
             }),
         );
 
-        renderWithProvidersAndRouter(<Item item={mockItem} />);
+        renderWithProviders(<Item item={mockItem} />);
 
         fireEvent.click(screen.getByRole('checkbox'));
 
         expect(mockDispatch).toHaveBeenCalledWith(unselectItem(Number(1)));
-    });
-
-    it('renders item and handles click', () => {
-        const history = createMemoryHistory();
-        history.push = jest.fn();
-
-        render(
-            <Provider store={store}>
-                <Router location={history.location} navigator={history}>
-                    <Item item={mockItem} />
-                </Router>
-            </Provider>,
-        );
-
-        const itemLink = screen.getByText('Test Item');
-        expect(itemLink).toBeInTheDocument();
-
-        fireEvent.click(itemLink);
-
-        expect(history.push).toHaveBeenCalledTimes(1);
-        expect(history.push).toHaveBeenCalledWith(
-            {
-                hash: '',
-                pathname: '/',
-                search: '?page=1&details=1',
-            },
-            undefined,
-            expect.any(Object),
-        );
     });
 });

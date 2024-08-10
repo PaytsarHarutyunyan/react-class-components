@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './Search.module.css';
+import styles from '../../styles/Search.module.css';
 
 interface SearchProps {
     searchTerm: string;
