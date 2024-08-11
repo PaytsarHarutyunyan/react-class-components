@@ -1,4 +1,5 @@
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import styles from '../../styles/Item.module.css';
 import { ResultItem } from '@/types';
 import { useQueryParams } from '@/hooks/useQueryParams';
@@ -26,6 +27,8 @@ const Item: React.FC<ItemProps> = ({ item }) => {
         }
     };
 
+    const pathname = usePathname();
+
     return (
         <div>
             <div className={styles.item}>
@@ -36,7 +39,7 @@ const Item: React.FC<ItemProps> = ({ item }) => {
                     onChange={handleSelect}
                 />
                 <Link
-                    href={`${location.pathname}?page=${getSelectedPage()}&details=${itemId}`}
+                    href={`${pathname}?page=${getSelectedPage()}&details=${itemId}`}
                     className={styles.link}
                 >
                     {item.name}

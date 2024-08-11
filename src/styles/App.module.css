@@ -1,9 +1,9 @@
 .hero {
-    height: 780px;
+    height: 100%;
 }
 
 .container {
-    width: 90%;
+    padding: 0 200px;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -16,7 +16,6 @@
     flex-direction: column;
     border-radius: 10px;
     width: 100%;
-    height: 600px;
     background-color: #dcdcdc;
 }
 
@@ -37,6 +36,6 @@
 .themeSelector {
     display: flex;
     width: 200px;
-    margin-left: 75px;
+    margin-left: 200px;
     gap: 50px;
 }

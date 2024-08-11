@@ -2,127 +2,325 @@
 
 exports[`App Component should render correctly 1`] = `
 <div>
-  <div
-    class="hero light"
-  >
+  <div>
     <div
-      class="themeSelector"
-    >
-      <button>
-        Light Theme
-      </button>
-      <button>
-        Dark Theme
-      </button>
-    </div>
-    <div
-      class="container"
+      class="hero light"
     >
       <div
-        class="content"
+        class="themeSelector"
+      >
+        <button>
+          Light Theme
+        </button>
+        <button>
+          Dark Theme
+        </button>
+      </div>
+      <div
+        class="container"
       >
         <div
-          style="position: relative;"
+          class="content"
         >
-          <div>
-            <div
-              class="searchContainer"
-            >
-              <input
-                placeholder="Search..."
-                type="text"
-                value=""
-              />
-              <button>
-                Search
-              </button>
-            </div>
-            <div
-              class="content"
-            >
+          <div
+            style="position: relative;"
+          >
+            <div>
               <div
-                class="container"
+                class="searchContainer"
               >
-                <button
-                  class="item itemSelected"
-                >
-                  People
-                </button>
-                <button
-                  class="item"
-                >
-                  Planets
-                </button>
-                <button
-                  class="item"
-                >
-                  Species
-                </button>
-                <button
-                  class="item"
-                >
-                  Starships
-                </button>
-                <button
-                  class="item"
-                >
-                  Vehicles
+                <input
+                  placeholder="Search..."
+                  type="text"
+                  value=""
+                />
+                <button>
+                  Search
                 </button>
               </div>
-              <span>
-                Loading...
-              </span>
               <div
-                class="container"
+                class="content"
               >
                 <div
-                  class="itemContainer"
+                  class="container"
                 >
                   <button
-                    class="item"
-                    style="position: relative;"
+                    class="item itemSelected"
                   >
                     <a
-                      href="/?page=1"
-                      style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+                      class="itemLink"
+                      href="/people?page=1"
                     >
-                      &lt;&lt;
+                      People
                     </a>
                   </button>
                   <button
                     class="item"
-                    style="position: relative;"
                   >
                     <a
-                      href="/?page=1"
-                      style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+                      class="itemLink"
+                      href="/planets?page=1"
                     >
-                      &lt;
-                    </a>
-                  </button>
-                  No data available
-                  <button
-                    class="item"
-                    style="position: relative;"
-                  >
-                    <a
-                      href="/?page=2"
-                      style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
-                    >
-                      &gt;
+                      Planets
                     </a>
                   </button>
                   <button
                     class="item"
-                    style="position: relative;"
                   >
                     <a
-                      href="/?page=0"
-                      style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+                      class="itemLink"
+                      href="/species?page=1"
                     >
-                      &gt;&gt;
+                      Species
                     </a>
                   </button>
+                  <button
+                    class="item"
+                  >
+                    <a
+                      class="itemLink"
+                      href="/starships?page=1"
+                    >
+                      Starships
+                    </a>
+                  </button>
+                  <button
+                    class="item"
+                  >
+                    <a
+                      class="itemLink"
+                      href="/vehicles?page=1"
+                    >
+                      Vehicles
+                    </a>
+                  </button>
+                </div>
+                <div
+                  class="container"
+                >
+                  <div>
+                    <div
+                      class="item"
+                    >
+                      <input
+                        class="checkbox"
+                        type="checkbox"
+                      />
+                      <a
+                        class="link"
+                        href="/people?page=1&details=1"
+                      >
+                        Luke MokWalker
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      class="item"
+                    >
+                      <input
+                        class="checkbox"
+                        type="checkbox"
+                      />
+                      <a
+                        class="link"
+                        href="/people?page=1&details=2"
+                      >
+                        C-3PO
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      class="item"
+                    >
+                      <input
+                        class="checkbox"
+                        type="checkbox"
+                      />
+                      <a
+                        class="link"
+                        href="/people?page=1&details=3"
+                      >
+                        R2-D2
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      class="item"
+                    >
+                      <input
+                        class="checkbox"
+                        type="checkbox"
+                      />
+                      <a
+                        class="link"
+                        href="/people?page=1&details=4"
+                      >
+                        Darth Vader
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      class="item"
+                    >
+                      <input
+                        class="checkbox"
+                        type="checkbox"
+                      />
+                      <a
+                        class="link"
+                        href="/people?page=1&details=5"
+                      >
+                        Leia Organa
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      class="item"
+                    >
+                      <input
+                        class="checkbox"
+                        type="checkbox"
+                      />
+                      <a
+                        class="link"
+                        href="/people?page=1&details=6"
+                      >
+                        Owen Lars
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      class="item"
+                    >
+                      <input
+                        class="checkbox"
+                        type="checkbox"
+                      />
+                      <a
+                        class="link"
+                        href="/people?page=1&details=7"
+                      >
+                        Beru Whitesun lars
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      class="item"
+                    >
+                      <input
+                        class="checkbox"
+                        type="checkbox"
+                      />
+                      <a
+                        class="link"
+                        href="/people?page=1&details=8"
+                      >
+                        R5-D4
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      class="item"
+                    >
+                      <input
+                        class="checkbox"
+                        type="checkbox"
+                      />
+                      <a
+                        class="link"
+                        href="/people?page=1&details=9"
+                      >
+                        Biggs Darklighter
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      class="item"
+                    >
+                      <input
+                        class="checkbox"
+                        type="checkbox"
+                      />
+                      <a
+                        class="link"
+                        href="/people?page=1&details=10"
+                      >
+                        Obi-Wan Kenobi
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="container"
+                >
+                  <div
+                    class="itemContainer"
+                  >
+                    <button
+                      class="item"
+                      style="position: relative;"
+                    >
+                      <a
+                        href="/people?page=1"
+                        style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+                      >
+                        &lt;&lt;
+                      </a>
+                    </button>
+                    <button
+                      class="item"
+                      style="position: relative;"
+                    >
+                      <a
+                        href="/people?page=1"
+                        style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+                      >
+                        &lt;
+                      </a>
+                    </button>
+                    <button
+                      class="item itemSelected"
+                      style="position: relative;"
+                    >
+                      <a
+                        href="/people?page=1"
+                        style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+                      >
+                        1
+                      </a>
+                    </button>
+                    <button
+                      class="item"
+                      style="position: relative;"
+                    >
+                      <a
+                        href="/people?page=1"
+                        style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+                      >
+                        &gt;
+                      </a>
+                    </button>
+                    <button
+                      class="item"
+                      style="position: relative;"
+                    >
+                      <a
+                        href="/people?page=1"
+                        style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+                      >
+                        &gt;&gt;
+                      </a>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -130,6 +328,11 @@ exports[`App Component should render correctly 1`] = `
         </div>
       </div>
     </div>
+    <button
+      class="error"
+    >
+      Throw Error
+    </button>
   </div>
 </div>
 `;

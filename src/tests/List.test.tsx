@@ -13,6 +13,39 @@ jest.mock('next/router', () => ({
     })),
 }));
 
+jest.mock('@/store/apiSlice', () => ({
+    apiSlice: {
+        reducerPath: 'api',
+        reducer: jest.fn(() => ({})), // Mock the reducer
+        middleware: jest.fn(
+            () => (next: (a: () => void) => void) => (action: () => void) => next(action),
+        ), // Mock the middleware
+        endpoints: {
+            getItems: jest.fn(),
+            getItemDetails: jest.fn(),
+        },
+    },
+    useGetItemsQuery: jest.fn(), // Mock the hook
+    useGetItemDetailsQuery: jest.fn(), // Mock the hook
+}));
+
+jest.mock('next/router', () => ({
+    useRouter: jest.fn(() => ({
+        pathname: '/',
+        query: {},
+        push: mockPush,
+    })),
+}));
+
+jest.mock('next/navigation', () => ({
+    useRouter: jest.fn(() => ({
+        push: mockPush,
+    })),
+    redirect: jest.fn(),
+    usePathname: jest.fn(() => '/people'),
+    useSearchParams: jest.fn(() => ({ get: jest.fn() })),
+}));
+
 describe('List Component', () => {
     test('renders loading state', () => {
         renderWithProviders(<List loading={true} data={[]} />);

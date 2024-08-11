@@ -11,6 +11,15 @@ jest.mock('next/router', () => ({
     })),
 }));
 
+jest.mock('next/navigation', () => ({
+    useRouter: jest.fn(() => ({
+        push: mockPush,
+    })),
+    redirect: jest.fn(),
+    usePathname: jest.fn(() => '/people'),
+    useSearchParams: jest.fn(() => ({ get: jest.fn() })),
+}));
+
 describe('Pagination Component', () => {
     test('renders pagination and handles page change', () => {
         const { container } = render(<Pagination pageCount={5} />);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import classNames from 'classnames';
 import styles from '../../styles/Pagination.module.css';
 import { useQueryParams } from '../../hooks/useQueryParams';
@@ -13,11 +13,11 @@ const Pagination: React.FC<PaginationProps> = ({ pageCount }) => {
     const { getSelectedPage } = useQueryParams();
     const selectedPage = getSelectedPage();
 
-    const router = useRouter();
+    const pathname = usePathname();
 
     // Function to generate the page link
     const getPageLink = (pageNumber: number) => {
-        return `${router.pathname}?page=${pageNumber}`;
+        return `${pathname}?page=${pageNumber}`;
     };
 
     const [paginationItems, setPaginationItems] = useState<number[]>([]);

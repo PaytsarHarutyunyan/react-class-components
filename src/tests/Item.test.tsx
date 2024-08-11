@@ -33,6 +33,31 @@ jest.mock('next/router', () => ({
     })),
 }));
 
+jest.mock('@/store/apiSlice', () => ({
+    apiSlice: {
+        reducerPath: 'api',
+        reducer: jest.fn(() => ({})), // Mock the reducer
+        middleware: jest.fn(
+            () => (next: (a: () => void) => void) => (action: () => void) => next(action),
+        ), // Mock the middleware
+        endpoints: {
+            getItems: jest.fn(),
+            getItemDetails: jest.fn(),
+        },
+    },
+    useGetItemsQuery: jest.fn(), // Mock the hook
+    useGetItemDetailsQuery: jest.fn(), // Mock the hook
+}));
+
+jest.mock('next/navigation', () => ({
+    useRouter: jest.fn(() => ({
+        push: mockPush,
+    })),
+    redirect: jest.fn(),
+    usePathname: jest.fn(() => '/people'),
+    useSearchParams: jest.fn(() => ({ get: jest.fn() })),
+}));
+
 describe('Item Component', () => {
     const mockItem = {
         name: 'Test Item',
@@ -71,7 +96,7 @@ describe('Item Component', () => {
         renderWithProviders(<Item item={mockItem} />);
 
         expect(screen.getByText('Test Item')).toBeInTheDocument();
-        expect(screen.getByRole('link')).toHaveAttribute('href', '/?page=1&details=1');
+        expect(screen.getByRole('link')).toHaveAttribute('href', '/people?page=1&details=1');
     });
 
     it('checkbox is checked if item is selected', () => {

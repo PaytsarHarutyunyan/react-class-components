@@ -1,9 +1,8 @@
 .item {
-    height: 10%;
     border-style: solid;
     border-color: #999;
     border-width: 0px 1px 1px 1px;
-    padding: 17.5px 17.5px;
+    padding: 15px 10px;
 }
 
 .item > button {

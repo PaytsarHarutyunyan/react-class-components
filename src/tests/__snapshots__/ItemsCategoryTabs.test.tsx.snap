@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ItemsCategoryTabs Component renders header buttons and handles click 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <button
+      class="item itemSelected"
+    >
+      <a
+        class="itemLink"
+        href="/people?page=1"
+      >
+        People
+      </a>
+    </button>
+    <button
+      class="item"
+    >
+      <a
+        class="itemLink"
+        href="/planets?page=1"
+      >
+        Planets
+      </a>
+    </button>
+    <button
+      class="item"
+    >
+      <a
+        class="itemLink"
+        href="/species?page=1"
+      >
+        Species
+      </a>
+    </button>
+    <button
+      class="item"
+    >
+      <a
+        class="itemLink"
+        href="/starships?page=1"
+      >
+        Starships
+      </a>
+    </button>
+    <button
+      class="item"
+    >
+      <a
+        class="itemLink"
+        href="/vehicles?page=1"
+      >
+        Vehicles
+      </a>
+    </button>
+  </div>
+</div>
+`;
