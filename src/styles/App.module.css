@@ -1,0 +1,41 @@
+.hero {
+    height: 100%;
+}
+
+.container {
+    padding: 0 200px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border-radius: 10px;
+    width: 100%;
+    background-color: #dcdcdc;
+}
+
+.key {
+    display: inline-block;
+}
+
+.light {
+    background-color: #f5f4f4;
+    color: #000000;
+}
+
+.dark {
+    background-color: #3b3838;
+    color: #ffffff;
+}
+
+.themeSelector {
+    display: flex;
+    width: 200px;
+    margin-left: 200px;
+    gap: 50px;
+}

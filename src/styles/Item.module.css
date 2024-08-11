@@ -1,0 +1,29 @@
+.item {
+    border-style: solid;
+    border-color: #999;
+    border-width: 0px 1px 1px 1px;
+    padding: 15px 10px;
+}
+
+.item > button {
+    border: none;
+    background: none;
+    height: 100%;
+    margin-left: 1.5%;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.item:hover {
+    background-color: #bababa;
+}
+
+.link {
+    font-weight: bold;
+    text-decoration: none;
+    color:rgb(0, 0, 0);
+}
+
+.checkbox {
+    margin-right: 10px;
+}

@@ -1,0 +1,7 @@
+{
+  "/people/page": "app/people/page.js",
+  "/planets/page": "app/planets/page.js",
+  "/species/page": "app/species/page.js",
+  "/starships/page": "app/starships/page.js",
+  "/vehicles/page": "app/vehicles/page.js"
+}

@@ -1,0 +1,39 @@
+.detailsContainer {
+    width: 500px;
+    height: calc(100% - 30px);
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    background: #bababa;
+    overflow-y: auto;
+    overflow-x: hidden; 
+}
+
+.detailsLink {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+}
+
+.detailsContent {
+    display: flex;
+    gap: 10px;
+    margin: 10px;
+}
+
+.detailsKey {
+    margin: 0;
+    font-size: 20px;
+}
+
+.detailsValue {
+    font-size: 20px;
+}
+
+.details {
+    margin-left: 220px;
+}
