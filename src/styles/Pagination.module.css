@@ -1,0 +1,22 @@
+.container {
+    height: 5%;
+    background-color: #212121;
+}
+
+.itemContainer {
+    justify-content: space-between;
+    height: 100%;
+}
+
+.item {
+    height: 100%;
+    width: 30px;
+    color: #fff;
+    background-color: rgb(137, 133, 133);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.itemSelected {
+    background-color: #1a63ff;
+}

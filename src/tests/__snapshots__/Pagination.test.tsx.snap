@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pagination Component renders pagination and handles page change 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="itemContainer"
+    >
+      <button
+        class="item"
+        style="position: relative;"
+      >
+        <a
+          href="/?page=1"
+          style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+        >
+          &lt;&lt;
+        </a>
+      </button>
+      <button
+        class="item"
+        style="position: relative;"
+      >
+        <a
+          href="/?page=1"
+          style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+        >
+          &lt;
+        </a>
+      </button>
+      <button
+        class="item itemSelected"
+        style="position: relative;"
+      >
+        <a
+          href="/?page=1"
+          style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+        >
+          1
+        </a>
+      </button>
+      <button
+        class="item"
+        style="position: relative;"
+      >
+        <a
+          href="/?page=2"
+          style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+        >
+          2
+        </a>
+      </button>
+      <button
+        class="item"
+        style="position: relative;"
+      >
+        <a
+          href="/?page=3"
+          style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+        >
+          3
+        </a>
+      </button>
+      <button
+        class="item"
+        style="position: relative;"
+      >
+        <a
+          href="/?page=4"
+          style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+        >
+          4
+        </a>
+      </button>
+      <button
+        class="item"
+        style="position: relative;"
+      >
+        <a
+          href="/?page=5"
+          style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+        >
+          5
+        </a>
+      </button>
+      <button
+        class="item"
+        style="position: relative;"
+      >
+        <a
+          href="/?page=2"
+          style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+        >
+          &gt;
+        </a>
+      </button>
+      <button
+        class="item"
+        style="position: relative;"
+      >
+        <a
+          href="/?page=5"
+          style="display: flex; color: rgb(255, 255, 255); text-decoration: none; position: absolute; margin: auto; top: 0px; left: 0px; right: 0px; bottom: 0px; align-items: center; justify-content: center;"
+        >
+          &gt;&gt;
+        </a>
+      </button>
+    </div>
+  </div>
+</div>
+`;
