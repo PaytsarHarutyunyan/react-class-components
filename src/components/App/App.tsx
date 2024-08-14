@@ -1,8 +1,27 @@
 import React from 'react';
-import styles from './App.module.css';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
+import AppRoutes from '../../routes/Routes';
+import '../App/App.module.css';
 
-const App: React.FC = () => {
-    return <div className={styles.container}></div>;
-};
+function App() {
+    return (
+        <Router>
+            <nav>
+                <ul>
+                    <li>
+                        <Link to='/'>Main</Link>
+                    </li>
+                    <li>
+                        <Link to='/uncontrolled'>Uncontrolled Form</Link>
+                    </li>
+                    <li>
+                        <Link to='/controlled'>Controlled Form</Link>
+                    </li>
+                </ul>
+            </nav>
+            <AppRoutes />
+        </Router>
+    );
+}
 
 export default App;
