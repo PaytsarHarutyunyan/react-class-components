@@ -18,7 +18,6 @@
         "paths": {
             "@/*": ["src/*"]
         },
-        "typeRoots": ["./node_modules/@types", "./src"],
 
         /* Linting */
         "strict": true,
@@ -26,6 +25,7 @@
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true
     },
-    "include": ["src"],
+    "include": ["src/**/*"],
+    "exclude": ["node_modules"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }

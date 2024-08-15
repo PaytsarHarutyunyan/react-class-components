@@ -33,7 +33,7 @@ export const UncontrolledForm: React.FC = () => {
             confirmPassword: confirmPasswordRef.current?.value || '',
             gender: genderRef.current?.value || '',
             acceptTerms: acceptTermsRef.current?.checked || false,
-            picture: pictureRef.current?.files?.[0],
+            picture: pictureRef.current?.files,
             country: countryRef.current?.value || '',
         };
 
@@ -53,10 +53,13 @@ export const UncontrolledForm: React.FC = () => {
                     navigate('/');
                 };
                 if (formData.picture) {
-                    reader.readAsDataURL(formData.picture);
+                    reader.readAsDataURL(formData.picture[0]);
                 }
             })
             .catch((err: ValidationError) => {
+                if (!err.inner) {
+                    console.log('code error', err);
+                }
                 const errors = err.inner.reduce((acc: Record<string, string>, curr) => {
                     if (curr.path) {
                         acc[curr.path] = curr.message;

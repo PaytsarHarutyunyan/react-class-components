@@ -24,10 +24,12 @@ export const validationSchema = Yup.object().shape({
         .oneOf([true], 'You must accept the terms and conditions')
         .required('You must accept the terms and conditions'),
     picture: Yup.mixed<FileList>()
+        .required('File is required')
         .test('fileSize', 'File size is too large', function (value) {
             if (!value || value.length === 0) {
                 return true;
             }
+            console.log({ value });
             return value[0].size <= 2000000;
         })
         .test('fileType', 'Unsupported file format', function (value) {
@@ -36,6 +38,8 @@ export const validationSchema = Yup.object().shape({
             }
             return ['image/jpeg', 'image/png'].includes(value[0].type);
         })
-        .required('Picture is required'),
+        .test('fileType', 'File is required', function (value) {
+            return !(value && value.length === 0);
+        }),
     country: Yup.string().required('Country is required'),
 });
