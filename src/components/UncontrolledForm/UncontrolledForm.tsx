@@ -43,7 +43,7 @@ export const UncontrolledForm: React.FC = () => {
                 setErrors({});
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                    const pictureBase64 = reader.result;
+                    const pictureBase64 = reader.result as string;
                     dispatch(
                         addFormData({
                             ...validatedData,
